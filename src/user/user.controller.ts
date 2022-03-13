@@ -1,17 +1,18 @@
-import { Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { Controller, Get, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('login')
+@UseGuards(AuthGuard)
 export class UserController {
-
   constructor(private readonly userService: UserService) {
   }
 
   @ApiOperation({ summary: '模拟登入' })
   @Get('fake')
   async fakeLogin() {
-    return await this.userService.loginFakeUser();
+    return await this.userService.fakeLogin();
   }
 
   @ApiOperation({ summary: 'apple 登入' })

@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Log4jsLogger } from '@nestx-log4js/core';
 import { Logger } from '@nestjs/common';
-import * as session from 'express-session';
+// import * as session from 'express-session';
 
 const logger = new Logger();
 const PORT = 3000;
@@ -23,13 +23,13 @@ async function bootstrap() {
   SwaggerModule.setup('swagger-ui', app, document);
   // 使用log4js
   app.useLogger(app.get(Log4jsLogger));
-  // 使用session
-  app.use(session({
-    secret: 'XXiTBNXKitYZaYcWXLmZQpDMbUKpKt3tMKP6rZoVCx',
-    name: '_P_d',
-    resave: false,
-    saveUninitialized: false,
-  }));
+  // // 使用session
+  // app.use(session({
+  //   secret: 'XXiTBNXKitYZaYcWXLmZQpDMbUKpKt3tMKP6rZoVCx',
+  //   name: '_P_d',
+  //   resave: false,
+  //   saveUninitialized: false,
+  // }));
 
   await app.listen(PORT);
 }
