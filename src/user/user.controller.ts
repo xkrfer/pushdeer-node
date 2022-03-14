@@ -1,49 +1,22 @@
 import {
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  Session,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { AuthGuard } from '../guards/auth.guard';
+  Body,
+  Controller, HttpCode, Post
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { ApiOperation } from "@nestjs/swagger";
+import { UserInfoDto } from "../dto/user-info.dto";
 
-@Controller('login')
-@UseGuards(AuthGuard)
+@Controller("user")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-
-  @ApiOperation({ summary: '模拟登入' })
-  @Get('fake')
-  async fakeLogin(@Session() session: Record<string, any>) {
-    const token = await this.userService.fakeLogin();
-    session.token = token;
-    return {
-      code: 0,
-      token,
-    };
+  constructor(private readonly userService: UserService) {
   }
 
-  @ApiOperation({ summary: 'apple 登入' })
-  @Post('idtoken')
+  @Post("info")
   @HttpCode(200)
-  appleLogin() {
-    return 'appleLogin';
+  @ApiOperation({ summary: "获取用户信息" })
+  // @ApiBody({ description: '用户token'})
+  async getUserInfo(@Body() body:UserInfoDto) {
+    return body;
   }
 
-  @ApiOperation({ summary: '微信code登入' })
-  @Post('wecode')
-  @HttpCode(200)
-  wxCodeLogin() {
-    return 'wxCodeLogin';
-  }
-
-  @ApiOperation({ summary: '微信union id登入' })
-  @Post('unoinid')
-  @HttpCode(200)
-  wxUnionIdLogin() {
-    return 'wxUnionIdLogin';
-  }
 }
