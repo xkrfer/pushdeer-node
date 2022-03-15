@@ -9,7 +9,7 @@ export class UserService {
   constructor(
     @InjectRepository(PushDeerUsers)
     private readonly usersRepository: Repository<PushDeerUsers>,
-    private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService
   ) {
   }
 
@@ -29,9 +29,9 @@ export class UserService {
   }
 
   async createToken(user: PushDeerUsers) {
-    const { id, name, apple_id, wechat_id } = user;
+    const { id, name, apple_id, wechat_id, email, level, created_at, updated_at } = user;
     return this.jwtService.sign({
-      id, name, apple_id, wechat_id
+      id, name, apple_id, wechat_id, email, level, created_at, updated_at
     });
   }
 }

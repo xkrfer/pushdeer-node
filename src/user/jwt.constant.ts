@@ -1,3 +1,3 @@
 export const Jwt_CONSTANT = {
-  secret:"e7&GC9R^QgBn&#8ov@oQnAx$"
+  secret: "Z4YY84NPhbYnFUfRpX7hzXCh7Sf"
 }
