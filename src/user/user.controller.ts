@@ -1,17 +1,9 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiOperation } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../guard/auth.guard';
 import { UserInfoDto } from '../dto/user-info.dto';
+import { sessionMap } from '../constant';
 
-@UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -19,8 +11,10 @@ export class UserController {
   @Post('info')
   @HttpCode(200)
   @ApiOperation({ summary: '获取用户信息' })
-  async getUserInfo(@Req() req, @Body() body: UserInfoDto) {
-    if (!req.user) {
+  async getUserInfo(@Body() body: UserInfoDto) {
+    const { token } = body;
+    const user = sessionMap.get(token);
+    if (!token || !user) {
       return {
         code: 80403,
         error: '当前用户没有足够的权限访问此接口',
@@ -28,7 +22,7 @@ export class UserController {
     }
     return {
       code: 0,
-      content: req.user,
+      content: user,
     };
   }
 }
