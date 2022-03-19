@@ -6,6 +6,7 @@ import { Log4jsModule } from "@nestx-log4js/core";
 import { DbModule } from "./db/db.module";
 import { DeviceModule } from './device/device.module';
 import { LoginModule } from './login/login.module';
+import { KeyModule } from './key/key.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { LoginModule } from './login/login.module';
     DeviceModule,
     LoginModule,
     UserModule,
+    KeyModule,
   ],
   controllers: [AppController],
   providers: [AppService]

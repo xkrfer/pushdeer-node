@@ -7,24 +7,24 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class PushDeerUsers {
+export class PushDeerDevices {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  uid: number;
 
   @Column()
-  email: string;
+  device_id: string;
 
-  @Column({ nullable: true })
-  apple_id: string;
+  @Column({ default: 'ios' })
+  type: string;
 
-  @Column({ nullable: true })
-  wechat_id: string;
+  @Column({ default: 0 })
+  is_clip: number;
 
-  @Column({ default: 1 })
-  level: number;
+  @Column()
+  name: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

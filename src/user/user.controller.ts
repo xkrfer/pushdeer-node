@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, Post, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiOperation } from '@nestjs/swagger';
-import { UserInfoDto } from '../dto/user-info.dto';
 import { sessionMap } from '../constant';
+import { UserInfoDto } from '../dto/user.dto';
 
 @Controller('user')
 export class UserController {

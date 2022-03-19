@@ -24,6 +24,7 @@ export class UserService {
   }
 
   createToken() {
-    return randomUUID().replace(/-/g, '');
+    return '4deec322e7ad4fafa4804222cc132853'
+    // return randomUUID().replace(/-/g, '');
   }
 }
