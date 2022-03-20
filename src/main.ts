@@ -4,6 +4,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Log4jsLogger } from '@nestx-log4js/core';
 import { Logger } from '@nestjs/common';
 import * as session from 'express-session';
+import { TransformInterceptor } from './global/interceptor/transform.interceptor';
+import { ValidationPipe } from './global/pipe/validation.pipe';
+
 const logger = new Logger();
 const PORT = 3000;
 
@@ -30,6 +33,11 @@ async function bootstrap() {
       saveUninitialized: true,
     }),
   );
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  app.useGlobalInterceptors(new TransformInterceptor());
+
   await app.listen(PORT);
 }
 

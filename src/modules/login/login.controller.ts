@@ -1,20 +1,22 @@
 import { Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
+import { Code } from '../../helpers/utils';
 
 @Controller('login')
 export class LoginController {
-  constructor(private readonly loginService: LoginService) {}
+  constructor(private readonly loginService: LoginService) {
+  }
 
   @ApiOperation({ summary: '模拟登入' })
   @Get('fake')
   async fakeLogin() {
     const token = await this.loginService.fakeLogin();
     return {
-      code: 0,
-      content: {
+      data: {
         token,
       },
+      code: Code.DONE,
     };
   }
 

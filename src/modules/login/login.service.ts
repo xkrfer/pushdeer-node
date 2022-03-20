@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { PushDeerUsers } from '../entity/users.entity';
-import { sessionMap } from '../constant';
+import { PushDeerUsers } from '../../entity/users.entity';
+import { sessionMap } from '../../constant';
+import { Utils } from '../../helpers/utils';
+import { RedisCoreService } from '../redis-core/redis-core.service';
 
 @Injectable()
 export class LoginService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+  ) {
+  }
 
   async fakeLogin() {
     const fakeUser = {
@@ -21,8 +26,14 @@ export class LoginService {
       pushDeerUser.level = 1;
       user = await this.userService.saveUser(pushDeerUser);
     }
-    const token = this.userService.createToken();
+    const token = this.createToken(user);
     sessionMap.set(token, user);
+    return token;
+  }
+
+  async createToken(user: PushDeerUsers) {
+    const token = Utils.randomUUID();
+    await RedisCoreService.set(token, JSON.stringify(user));
     return token;
   }
 }

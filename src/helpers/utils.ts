@@ -1,5 +1,13 @@
 import { randomUUID } from 'crypto';
 
+export enum Code {
+  AUTH = 80403,
+  ARGS = 80501,
+  REMOTE = 80502,
+  DEFAULT = 80999,
+  DONE = 0
+}
+
 export const Utils = {
   unique(arr: string[]) {
     const res = new Map();
