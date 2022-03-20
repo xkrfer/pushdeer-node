@@ -7,6 +7,7 @@ import { DbModule } from "./db/db.module";
 import { DeviceModule } from './device/device.module';
 import { LoginModule } from './login/login.module';
 import { KeyModule } from './key/key.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { KeyModule } from './key/key.module';
     LoginModule,
     UserModule,
     KeyModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService]
