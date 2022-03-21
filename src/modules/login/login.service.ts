@@ -35,9 +35,7 @@ export class LoginService {
 
 
   async appleLogin(info: AppleLoginDto) {
-    const { idToken } = info
-    await verifyAppleToken(idToken)
-    return '123';
+    return await verifyAppleToken(info);
   }
 
   async createToken(user: PushDeerUsers) {

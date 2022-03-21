@@ -25,9 +25,12 @@ export class LoginController {
   @Post('idtoken')
   @HttpCode(200)
   async appleLogin(@Body() body: AppleLoginDto) {
-    console.log('appleLogin', body);
-    await this.loginService.appleLogin(body);
-    return 'appleLogin';
+    return {
+      data: {
+        user: await this.loginService.appleLogin(body),
+      },
+      code: Code.DONE,
+    };
   }
 
   @ApiOperation({ summary: '微信code登入' })
