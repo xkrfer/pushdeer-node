@@ -1,23 +1,33 @@
-import { Body, Controller, HttpCode, Post, Session, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
 import { KeyService } from './key.service';
 import { ApiOperation } from '@nestjs/swagger';
-import { GenKeyDto, ListKeyDto, ReGenKeyDto, RemoveKeyDto, RenameKeyDto } from '../../dto/key.dto';
+import {
+  GenKeyDto,
+  ListKeyDto,
+  ReGenKeyDto,
+  RemoveKeyDto,
+  RenameKeyDto,
+} from '../../dto/key.dto';
 import { AuthGuard } from '../../global/guard/auth.guard';
 import { Code } from '../../helpers/utils';
 
 @Controller('key')
 @UseGuards(AuthGuard)
 export class KeyController {
-  constructor(
-    private readonly keyService: KeyService,
-  ) {
-  }
+  constructor(private readonly keyService: KeyService) {}
 
   @ApiOperation({ summary: '生成一个新Key' })
   @Post('gen')
   @HttpCode(200)
   async gen(@Body() body: GenKeyDto, @Session() session) {
-    let keys = await this.keyService.gen(body, session.user);
+    const keys = await this.keyService.gen(body, session.user);
     return {
       code: Code.DONE,
       data: {

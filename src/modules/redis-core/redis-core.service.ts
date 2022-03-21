@@ -2,11 +2,10 @@ import IORedis from 'ioredis';
 
 const options = {
   port: 56379,
-  host: '127.0.0.1',
+  host: 'localhost',
   family: 4,
   db: 0,
 };
-
 
 export class RedisCoreService {
   private static redis: IORedis.Redis;

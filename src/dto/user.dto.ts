@@ -7,7 +7,6 @@ export class UserDto {
 
   @ApiProperty({ description: '微信登录code', example: 'xxxxx' })
   code: string;
-
 }
 
 export class AppleLoginDto {

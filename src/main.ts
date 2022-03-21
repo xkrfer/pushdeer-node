@@ -6,6 +6,7 @@ import { Logger } from '@nestjs/common';
 import * as session from 'express-session';
 import { TransformInterceptor } from './global/interceptor/transform.interceptor';
 import { ValidationPipe } from './global/pipe/validation.pipe';
+import { RequestInterceptor } from './global/interceptor/request.interceptor';
 
 const logger = new Logger();
 const PORT = 8800;
@@ -34,8 +35,11 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new TransformInterceptor());
+  // app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(
+    new TransformInterceptor(),
+    new RequestInterceptor(),
+  );
   await app.listen(PORT);
 }
 

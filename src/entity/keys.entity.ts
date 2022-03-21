@@ -12,7 +12,7 @@ export class PushDeerKeys {
   id: number;
 
   @Column()
-  uid: number;
+  uid: string;
 
   @Column()
   name: string;

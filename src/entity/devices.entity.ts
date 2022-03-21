@@ -12,7 +12,7 @@ export class PushDeerDevices {
   id: number;
 
   @Column()
-  uid: number;
+  uid: string;
 
   @Column()
   device_id: string;

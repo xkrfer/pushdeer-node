@@ -7,6 +7,6 @@ import { PushDeerDevices } from '../../entity/devices.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([PushDeerDevices])],
   controllers: [DeviceController],
-  providers: [DeviceService]
+  providers: [DeviceService],
 })
 export class DeviceModule {}

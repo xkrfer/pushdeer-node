@@ -13,9 +13,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [__dirname + '/../entity/*.entity{.ts,.js}'],
       synchronize: true,
       timezone: '+08:00',
-      charset:"utf8mb4"
+      charset: 'utf8mb4',
     }),
   ],
 })
-export class DbModule {
-}
+export class DbModule {}

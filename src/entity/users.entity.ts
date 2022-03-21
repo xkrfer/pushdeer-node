@@ -12,6 +12,9 @@ export class PushDeerUsers {
   id: number;
 
   @Column()
+  uid: string;
+
+  @Column()
   name: string;
 
   @Column()

@@ -22,5 +22,4 @@ import { MessageModule } from './modules/message/message.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -12,7 +12,7 @@ export class PushDeerMessages {
   id: number;
 
   @Column()
-  uid: number;
+  uid: string;
 
   @Column()
   text: string;
