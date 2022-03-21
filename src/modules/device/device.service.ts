@@ -16,7 +16,6 @@ export class DeviceService {
 
   async updateOrCreate(updateDevice: UpdateDeviceDto, user: PushDeerUsers) {
     let device = await this.devicesRepository.findOne({ uid: user.id, device_id: updateDevice.device_id });
-    console.log(updateDevice);
     if (!device) {
       const pushDevice = new PushDeerDevices();
       pushDevice.uid = user.id;

@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: 'localhost',
-      port: 3306,
+      port: 53306,
       username: 'root',
       password: 'theVeryp@ssw0rd',
       database: 'pushdeer',

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AuthDto } from './auth.dto';
-import { isNotEmpty, IsNotEmpty, IsOptional, Matches } from 'class-validator';
+import { IsNotEmpty, IsOptional, Matches } from 'class-validator';
 
 export class UpdateDeviceDto extends AuthDto {
   @ApiProperty({ description: '设备名', example: 'iPhone', required: true })
