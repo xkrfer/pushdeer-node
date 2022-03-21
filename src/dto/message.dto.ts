@@ -37,5 +37,6 @@ export class PushMessageDto {
 
   @ApiProperty({ description: '格式，选填-文本=text，markdown，图片=image，默认为markdown', example: 'markdown', required: false })
   @Matches(/^(text|markdown|image)$/, { message: 'type:消息类型错误，文本=text，markdown，图片=image，默认为markdown' })
+  @IsOptional()
   type: string;
 }

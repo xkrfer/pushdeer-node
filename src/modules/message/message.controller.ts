@@ -13,7 +13,7 @@ export class MessageController {
   }
 
   @ApiOperation({ summary: '获得当前用户的消息列表' })
-  @Post('/list')
+  @Post('list')
   @HttpCode(200)
   @UseGuards(AuthGuard)
   async list(@Body() body: ListMessageDto, @Session() session) {
@@ -27,7 +27,7 @@ export class MessageController {
   }
 
   @ApiOperation({ summary: '推送消息' })
-  @Post('/push')
+  @Post('push')
   @HttpCode(200)
   async push(@Body() body: PushMessageDto) {
     return {
@@ -37,7 +37,7 @@ export class MessageController {
   }
 
   @ApiOperation({ summary: '删除消息' })
-  @Post('/remove')
+  @Post('remove')
   @HttpCode(200)
   @UseGuards(AuthGuard)
   async remove(@Body() body: RemoveMessageDto, @Session() session) {

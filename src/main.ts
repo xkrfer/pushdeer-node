@@ -8,7 +8,7 @@ import { TransformInterceptor } from './global/interceptor/transform.interceptor
 import { ValidationPipe } from './global/pipe/validation.pipe';
 
 const logger = new Logger();
-const PORT = 3000;
+const PORT = 8800;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,7 +19,7 @@ async function bootstrap() {
     .setTitle('PushDeerOS')
     .setDescription('PushDeer 接口文档')
     .setVersion('1.0')
-    .addServer('http://127.0.0.1:3000')
+    .addServer(`http://127.0.0.1:${PORT}`)
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger-ui', app, document);

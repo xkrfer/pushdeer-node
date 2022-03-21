@@ -4,6 +4,8 @@ import { PushDeerUsers } from '../../entity/users.entity';
 import { sessionMap } from '../../constant';
 import { Utils } from '../../helpers/utils';
 import { RedisCoreService } from '../redis-core/redis-core.service';
+import { AppleLoginDto } from '../../dto/user.dto';
+import { verifyAppleToken } from '../../helpers/verify.login';
 
 @Injectable()
 export class LoginService {
@@ -29,6 +31,13 @@ export class LoginService {
     const token = this.createToken(user);
     sessionMap.set(token, user);
     return token;
+  }
+
+
+  async appleLogin(info: AppleLoginDto) {
+    const { idToken } = info
+    await verifyAppleToken(idToken)
+    return '123';
   }
 
   async createToken(user: PushDeerUsers) {

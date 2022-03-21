@@ -14,7 +14,7 @@ export class KeyController {
   }
 
   @ApiOperation({ summary: '生成一个新Key' })
-  @Post('/gen')
+  @Post('gen')
   @HttpCode(200)
   async gen(@Body() body: GenKeyDto, @Session() session) {
     let keys = await this.keyService.gen(body, session.user);
@@ -27,7 +27,7 @@ export class KeyController {
   }
 
   @ApiOperation({ summary: '获取当前用户的Key列表' })
-  @Post('/list')
+  @Post('list')
   @HttpCode(200)
   async list(@Body() body: ListKeyDto, @Session() session) {
     const keys = await this.keyService.list(session.user);
@@ -40,7 +40,7 @@ export class KeyController {
   }
 
   @ApiOperation({ summary: '重置一个Key' })
-  @Post('/regen')
+  @Post('regen')
   @HttpCode(200)
   async regen(@Body() body: ReGenKeyDto, @Session() session) {
     const { affected } = await this.keyService.regen(body, session.user);
@@ -51,7 +51,7 @@ export class KeyController {
   }
 
   @ApiOperation({ summary: '重命名Key' })
-  @Post('/rename')
+  @Post('rename')
   @HttpCode(200)
   async rename(@Body() body: RenameKeyDto, @Session() session) {
     const { affected } = await this.keyService.rename(body, session.user);
@@ -62,7 +62,7 @@ export class KeyController {
   }
 
   @ApiOperation({ summary: '删除Key' })
-  @Post('/remove')
+  @Post('remove')
   @HttpCode(200)
   async remove(@Body() body: RemoveKeyDto, @Session() session) {
     const { affected } = await this.keyService.remove(body, session.user);

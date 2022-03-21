@@ -15,7 +15,7 @@ export class DeviceController {
   }
 
   @ApiOperation({ summary: '设备注册' })
-  @Post('/reg')
+  @Post('reg')
   @HttpCode(200)
   async createDevice(@Body() body: UpdateDeviceDto, @Session() session) {
     const device = await this.deviceService.updateOrCreate(body, session.user);
@@ -31,7 +31,7 @@ export class DeviceController {
 
 
   @ApiOperation({ summary: '设备列表' })
-  @Post('/list')
+  @Post('list')
   @HttpCode(200)
   async listDevice(@Body() body: ListDeviceDto, @Session() session) {
     const devices = await this.deviceService.findAll(session.user);
@@ -44,7 +44,7 @@ export class DeviceController {
   }
 
   @ApiOperation({ summary: '重命名设备' })
-  @Post('/rename')
+  @Post('rename')
   @HttpCode(200)
   async renameDevice(@Body() body: RenameDeviceDto, @Session() session) {
     const status = await this.deviceService.renameDevice(body, session.user);
@@ -55,7 +55,7 @@ export class DeviceController {
   }
 
   @ApiOperation({ summary: '移除设备' })
-  @Post('/remove')
+  @Post('remove')
   @HttpCode(200)
   async removeDevice(@Body() body: RemoveDeviceDto, @Session() session) {
     const status = await this.deviceService.removeDevice(body, session.user);

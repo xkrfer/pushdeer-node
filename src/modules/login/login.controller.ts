@@ -1,7 +1,8 @@
-import { Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
 import { Code } from '../../helpers/utils';
+import { AppleLoginDto } from '../../dto/user.dto';
 
 @Controller('login')
 export class LoginController {
@@ -23,7 +24,9 @@ export class LoginController {
   @ApiOperation({ summary: 'apple 登入' })
   @Post('idtoken')
   @HttpCode(200)
-  appleLogin() {
+  async appleLogin(@Body() body: AppleLoginDto) {
+    console.log('appleLogin', body);
+    await this.loginService.appleLogin(body);
     return 'appleLogin';
   }
 
@@ -31,6 +34,7 @@ export class LoginController {
   @Post('wecode')
   @HttpCode(200)
   wxCodeLogin() {
+    console.log('wxCodeLogin');
     return 'wxCodeLogin';
   }
 
@@ -38,6 +42,7 @@ export class LoginController {
   @Post('unoinid')
   @HttpCode(200)
   wxUnionIdLogin() {
+    console.log('unoinid');
     return 'wxUnionIdLogin';
   }
 }
