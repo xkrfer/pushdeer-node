@@ -32,7 +32,7 @@ export class UpdateDeviceDto extends AuthDto {
     required: false,
   })
   @IsOptional()
-  @Matches(/^(ios|android)$/, { message: 'type:应用类型错误' })
+  @Matches(/^(\s)(|ios|android)$/, { message: 'type:应用类型错误' })
   type: 'ios' | 'android';
 }
 

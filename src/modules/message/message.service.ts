@@ -11,6 +11,7 @@ import { Utils } from '../../helpers/utils';
 import { PushDeerKeys } from '../../entity/keys.entity';
 import { PushDeerDevices } from '../../entity/devices.entity';
 import { PushDeerUsers } from '../../entity/users.entity';
+import { sendToiOS } from '../../helpers/send';
 
 @Injectable()
 export class MessageService {
@@ -40,10 +41,10 @@ export class MessageService {
         pushMessage.type = type;
         pushMessage.pushkey_name = key.name;
         await this.messagesRepository.save(pushMessage);
-        await this.runToDevice(key);
+        await this.runToDevice(key, type, text);
       }
     }
-    return 'success';
+    return [];
   }
 
   async list(listMessage: ListMessageDto, user: PushDeerUsers) {
@@ -78,15 +79,17 @@ export class MessageService {
     return affected;
   }
 
-  async runToDevice(key: PushDeerKeys) {
+  async runToDevice(key: PushDeerKeys, sendType: string, text: string) {
     const devices = await this.devicesRepository.find({
       uid: key.uid,
     });
 
     if (devices) {
+      const sendText = sendType === 'image' ? '[图片]' : text;
       for (let i = 0; i < devices.length; i++) {
         const { type, device_id, is_clip } = devices[i];
         if (type === 'ios') {
+          sendToiOS(is_clip, device_id, sendText);
         }
       }
       return true;

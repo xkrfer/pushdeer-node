@@ -21,7 +21,7 @@ export class PushDeerDevices {
   type: string;
 
   @Column({ default: 0 })
-  is_clip: number;
+  is_clip: 0 | 1;
 
   @Column()
   name: string;

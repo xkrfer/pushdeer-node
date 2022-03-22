@@ -1,0 +1,19 @@
+db:
+  type: mariadb
+  port: 53306
+  username: root
+  password: theVeryp@ssw0rd
+  database: pushdeer
+  host: 127.0.0.1
+redis:
+  port: 56379
+  host: 127.0.0.1
+http:
+  port: 8800
+app:
+  debug: true
+go_push:
+  ios_port: 8888
+  ios_topic: com.pushdeer.self.ios
+  clip_port: 8889
+  clip_topic: com.pushdeer.self.ios.Clip

@@ -5,7 +5,7 @@ export enum Code {
   ARGS = 80501,
   REMOTE = 80502,
   DEFAULT = 80999,
-  DONE = 0
+  DONE = 0,
 }
 
 export const Utils = {
@@ -14,10 +14,12 @@ export const Utils = {
     return arr.filter((id) => !res.has(id) && res.set(id, 1));
   },
 
-  randomUUID(count: number = 32) {
-    return randomUUID().replace(/-/g, '').substring(0, count > 32 ? 32 : count);
+  randomUUID(count = 32) {
+    return randomUUID()
+      .replace(/-/g, '')
+      .substring(0, count > 32 ? 32 : count);
   },
-  checkNullObj(obj: Object) {
+  checkNullObj(obj: any) {
     return Object.keys(obj).length === 0;
   },
 };

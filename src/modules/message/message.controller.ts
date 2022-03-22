@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
+  Query,
   Session,
   UseGuards,
 } from '@nestjs/common';
@@ -41,6 +43,15 @@ export class MessageController {
     return {
       code: 0,
       content: await this.messageService.push(body),
+    };
+  }
+
+  @ApiOperation({ summary: '推送消息Get请求' })
+  @Get('push')
+  async pushFormGet(@Query() query: PushMessageDto) {
+    return {
+      code: 0,
+      content: await this.messageService.push(query),
     };
   }
 
