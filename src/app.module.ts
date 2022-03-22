@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { Log4jsModule } from '@nestx-log4js/core';
-import { DbModule } from './db/db.module';
+import { DbModule } from './modules/db/db.module';
 import { DeviceModule } from './modules/device/device.module';
 import { LoginModule } from './modules/login/login.module';
 import { KeyModule } from './modules/key/key.module';

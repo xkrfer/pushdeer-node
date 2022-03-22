@@ -1,7 +1,7 @@
 import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ConfigInterface } from '../config/config.type';
+import { ConfigInterface } from '../../config/config.type';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { ConfigInterface } from '../config/config.type';
       useFactory: async (configService: ConfigService) => {
         const dbConfig = configService.get<ConfigInterface>('db');
         return {
-          entities: [__dirname + '/../entity/*.entity{.ts,.js}'],
+          entities: [__dirname + '/../../entity/*.entity{.ts,.js}'],
           synchronize: true,
           charset: 'utf8mb4',
           host: 'localhost',
