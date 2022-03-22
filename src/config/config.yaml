@@ -1,0 +1,12 @@
+db:
+  type: mariadb
+  port: 53306
+  username: root
+  password: theVeryp@ssw0rd
+  database: pushdeer
+redis:
+  port: 56379
+http:
+  port: 8800
+app:
+  debug: false

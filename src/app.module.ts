@@ -9,10 +9,16 @@ import { LoginModule } from './modules/login/login.module';
 import { KeyModule } from './modules/key/key.module';
 import { MessageModule } from './modules/message/message.module';
 import { RequestMiddleware } from './global/middleware/request.middleware';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
     Log4jsModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+    }),
     DbModule,
     DeviceModule,
     LoginModule,
@@ -25,9 +31,8 @@ import { RequestMiddleware } from './global/middleware/request.middleware';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    // 为 hello 路由添加中间件
     consumer
       .apply(RequestMiddleware)
-      .forRoutes("*");
+      .forRoutes('*');
   }
 }

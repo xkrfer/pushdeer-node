@@ -3,21 +3,34 @@ import { ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
 import { Code } from '../../helpers/utils';
 import { AppleLoginDto } from '../../dto/user.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('login')
 export class LoginController {
-  constructor(private readonly loginService: LoginService) {}
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly configService: ConfigService,
+  ) {
+  }
 
   @ApiOperation({ summary: '模拟登入' })
   @Get('fake')
   async fakeLogin() {
-    const token = await this.loginService.fakeLogin();
+    const debug = this.configService.get('app.debug') ?? false;
+    if (debug) {
+      const token = await this.loginService.fakeLogin();
+      return {
+        data: {
+          token,
+        },
+        code: Code.DONE,
+      };
+    }
     return {
-      data: {
-        token,
-      },
-      code: Code.DONE,
+      code: Code.ARGS,
+      error: 'Debug only',
     };
+
   }
 
   @ApiOperation({ summary: 'apple 登入' })
@@ -31,21 +44,5 @@ export class LoginController {
       },
       code: Code.DONE,
     };
-  }
-
-  @ApiOperation({ summary: '微信code登入' })
-  @Post('wecode')
-  @HttpCode(200)
-  wxCodeLogin() {
-    console.log('wxCodeLogin');
-    return 'wxCodeLogin';
-  }
-
-  @ApiOperation({ summary: '微信union id登入' })
-  @Post('unoinid')
-  @HttpCode(200)
-  wxUnionIdLogin() {
-    console.log('unoinid');
-    return 'wxUnionIdLogin';
   }
 }

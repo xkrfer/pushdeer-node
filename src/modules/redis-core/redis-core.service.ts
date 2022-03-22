@@ -1,11 +1,5 @@
 import IORedis from 'ioredis';
-
-const options = {
-  port: 56379,
-  host: 'localhost',
-  family: 4,
-  db: 0,
-};
+import getConfig from '../../config/configuration';
 
 export class RedisCoreService {
   private static redis: IORedis.Redis;
@@ -22,7 +16,14 @@ export class RedisCoreService {
 
   static async init() {
     if (!RedisCoreService.redis) {
-      RedisCoreService.redis = await new IORedis(options);
+      const config = getConfig().redis;
+      RedisCoreService.redis = await new IORedis({
+        port: 56379,
+        host: 'localhost',
+        family: 4,
+        db: 0,
+        ...config,
+      });
     }
     return RedisCoreService.redis;
   }
