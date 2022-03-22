@@ -17,4 +17,7 @@ export const Utils = {
   randomUUID(count: number = 32) {
     return randomUUID().replace(/-/g, '').substring(0, count > 32 ? 32 : count);
   },
+  checkNullObj(obj: Object) {
+    return Object.keys(obj).length === 0;
+  },
 };

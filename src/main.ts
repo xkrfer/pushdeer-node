@@ -26,7 +26,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger-ui', app, document);
   // 使用log4js
   app.useLogger(app.get(Log4jsLogger));
-  // // 使用session
+  // 使用session
   app.use(
     session({
       secret: 'XXiTBNXKitYZaYcWXLmZQpDMbUKpKt3tMKP6rZoVCx',
@@ -34,12 +34,11 @@ async function bootstrap() {
       saveUninitialized: true,
     }),
   );
-
-  // app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(
     new TransformInterceptor(),
     new RequestInterceptor(),
   );
+  // app.useGlobalPipes(new ValidationPipe());
   await app.listen(PORT);
 }
 

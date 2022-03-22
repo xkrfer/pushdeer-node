@@ -2,7 +2,7 @@ import {
   Controller,
   HttpCode,
   Post,
-  Query,
+  Body,
   Session,
   UseGuards,
 } from '@nestjs/common';
@@ -25,8 +25,8 @@ export class DeviceController {
   @ApiOperation({ summary: '设备注册' })
   @Post('reg')
   @HttpCode(200)
-  async createDevice(@Query() query: UpdateDeviceDto, @Session() session) {
-    const device = await this.deviceService.updateOrCreate(query, session.user);
+  async createDevice(@Body() body: UpdateDeviceDto, @Session() session) {
+    const device = await this.deviceService.updateOrCreate(body, session.user);
     return {
       code: Code.DONE,
       data: {
@@ -38,7 +38,7 @@ export class DeviceController {
   @ApiOperation({ summary: '设备列表' })
   @Post('list')
   @HttpCode(200)
-  async listDevice(@Query() query: ListDeviceDto, @Session() session) {
+  async listDevice(@Body() body: ListDeviceDto, @Session() session) {
     const devices = await this.deviceService.findAll(session.user);
     return {
       code: Code.DONE,
@@ -51,8 +51,8 @@ export class DeviceController {
   @ApiOperation({ summary: '重命名设备' })
   @Post('rename')
   @HttpCode(200)
-  async renameDevice(@Query() query: RenameDeviceDto, @Session() session) {
-    const status = await this.deviceService.renameDevice(query, session.user);
+  async renameDevice(@Body() body: RenameDeviceDto, @Session() session) {
+    const status = await this.deviceService.renameDevice(body, session.user);
     return {
       code: status ? Code.DONE : Code.ARGS,
       error: '设备不存在或已注销',
@@ -62,8 +62,8 @@ export class DeviceController {
   @ApiOperation({ summary: '移除设备' })
   @Post('remove')
   @HttpCode(200)
-  async removeDevice(@Query() query: RemoveDeviceDto, @Session() session) {
-    const status = await this.deviceService.removeDevice(query, session.user);
+  async removeDevice(@Body() body: RemoveDeviceDto, @Session() session) {
+    const status = await this.deviceService.removeDevice(body, session.user);
     return {
       code: status ? Code.DONE : Code.ARGS,
       error: '设备不存在或已注销',

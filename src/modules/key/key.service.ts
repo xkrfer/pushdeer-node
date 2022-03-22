@@ -17,16 +17,15 @@ export class KeyService {
   constructor(
     @InjectRepository(PushDeerKeys)
     private readonly keysRepository: Repository<PushDeerKeys>,
-  ) {}
+  ) {
+  }
 
   async gen(genKey: GenKeyDto, user: PushDeerUsers) {
-    const name = `Key${Utils.randomUUID(8)}`;
-    const key = `PDU${user.uid}T${Utils.randomUUID()}`;
-    await this.keysRepository.save({
-      uid: user.uid,
-      name,
-      key,
-    });
+    const pushdeerKey = new PushDeerKeys();
+    pushdeerKey.key = `PDU${user.uid}T${Utils.randomUUID()}`;
+    pushdeerKey.uid = user.uid;
+    pushdeerKey.name = `Key${Utils.randomUUID(8)}`;
+    await this.keysRepository.save(pushdeerKey);
     return await this.list(user);
   }
 

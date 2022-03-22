@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     //获取请求对象
     const request = context.switchToHttp().getRequest();
-    const token = request.query.token;
+    const token = request.body.token;
     const user = await RedisCoreService.get(token);
     if (token && user) {
       request.session.user = JSON.parse(user);

@@ -1,8 +1,8 @@
 import {
+  Body,
   Controller,
   HttpCode,
   Post,
-  Query,
   Session,
   UseGuards,
 } from '@nestjs/common';
@@ -24,8 +24,8 @@ export class MessageController {
   @Post('list')
   @HttpCode(200)
   @UseGuards(AuthGuard)
-  async list(@Query() query: ListMessageDto, @Session() session) {
-    const messages = await this.messageService.list(query, session.user);
+  async list(@Body() body: ListMessageDto, @Session() session) {
+    const messages = await this.messageService.list(body, session.user);
     return {
       code: Code.DONE,
       data: {
@@ -37,10 +37,10 @@ export class MessageController {
   @ApiOperation({ summary: '推送消息' })
   @Post('push')
   @HttpCode(200)
-  async push(@Query() query: PushMessageDto) {
+  async push(@Body() body: PushMessageDto) {
     return {
       code: 0,
-      content: await this.messageService.push(query),
+      content: await this.messageService.push(body),
     };
   }
 
@@ -48,8 +48,8 @@ export class MessageController {
   @Post('remove')
   @HttpCode(200)
   @UseGuards(AuthGuard)
-  async remove(@Query() query: RemoveMessageDto, @Session() session) {
-    const count = await this.messageService.remove(query, session.user);
+  async remove(@Body() body: RemoveMessageDto, @Session() session) {
+    const count = await this.messageService.remove(body, session.user);
     return {
       code: count > 0 ? Code.DONE : Code.ARGS,
       error: '消息不存在或已删除',

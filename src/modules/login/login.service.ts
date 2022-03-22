@@ -8,7 +8,8 @@ import { verifyAppleToken } from '../../helpers/verify.login';
 
 @Injectable()
 export class LoginService {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {
+  }
 
   async fakeLogin() {
     const fakeUser = {

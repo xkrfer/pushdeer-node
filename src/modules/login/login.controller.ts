@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Query, Post } from '@nestjs/common';
+import { Controller, Get, HttpCode, Query, Post, Body } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
 import { Code } from '../../helpers/utils';
@@ -23,8 +23,8 @@ export class LoginController {
   @ApiOperation({ summary: 'apple 登入' })
   @Post('idtoken')
   @HttpCode(200)
-  async appleLogin(@Query() query: AppleLoginDto) {
-    const token = await this.loginService.appleLogin(query);
+  async appleLogin(@Body() body: AppleLoginDto) {
+    const token = await this.loginService.appleLogin(body);
     return {
       data: {
         token,
