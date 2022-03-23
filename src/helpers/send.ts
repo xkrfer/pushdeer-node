@@ -1,12 +1,13 @@
 import { UpdateDeviceDto } from '../dto/device.dto';
-import getConfig from '../config/configuration';
 import { request } from './request';
+import {
+  GO_PUSH_IOS_CLIP_PORT,
+  GO_PUSH_IOS_CLIP_TOPIC,
+  GO_PUSH_IOS_PORT,
+  GO_PUSH_IOS_TOPIC,
+  GO_RUSH_ADDRESS,
+} from './config';
 
-export interface SendReady {
-  is_clip: 0 | 1,
-  device_id: string,
-  type: 'ios'
-}
 
 interface AppleNotifications {
   tokens: string[];
@@ -21,21 +22,14 @@ interface AppleSendInterface {
   notifications: AppleNotifications[];
 }
 
-const {
-  address = 'http://127.0.0.1',
-  ios_topic = 'com.pushdeer.self.ios',
-  clip_topic = 'com.pushdeer.self.ios.Clip',
-  ios_port = 8888,
-  clip_port = 8889,
-} = getConfig().go_push;
 
 export async function sendToiOS(
   is_clip: UpdateDeviceDto['is_clip'],
   device_id: UpdateDeviceDto['device_id'],
   message: string,
 ) {
-  const topic = is_clip === 0 ? ios_topic : clip_topic;
-  const port = is_clip === 0 ? ios_port : clip_port;
+  const topic = is_clip === 0 ? GO_PUSH_IOS_TOPIC : GO_PUSH_IOS_CLIP_TOPIC;
+  const port = is_clip === 0 ? GO_PUSH_IOS_PORT : GO_PUSH_IOS_CLIP_PORT;
   const notification: AppleSendInterface = {
     notifications: [
       {
@@ -49,7 +43,7 @@ export async function sendToiOS(
     ],
   };
   const response = await request({
-    url: `${address}:${port}/api/push`,
+    url: `${GO_RUSH_ADDRESS}:${port}/api/push`,
     method: 'POST',
     data: notification,
   });

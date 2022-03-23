@@ -3,21 +3,19 @@ import { ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
 import { Code } from '../../helpers/utils';
 import { AppleLoginDto } from '../../dto/user.dto';
-import { ConfigService } from '@nestjs/config';
+import { APP_DEBUG } from '../../helpers/config';
 
 @Controller('login')
 export class LoginController {
   constructor(
     private readonly loginService: LoginService,
-    private readonly configService: ConfigService,
   ) {
   }
 
   @ApiOperation({ summary: '模拟登入' })
   @Get('fake')
   async fakeLogin() {
-    const debug = this.configService.get('app.debug') ?? false;
-    if (debug) {
+    if (APP_DEBUG) {
       const token = await this.loginService.fakeLogin();
       return {
         data: {

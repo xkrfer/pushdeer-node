@@ -9,16 +9,10 @@ import { LoginModule } from './modules/login/login.module';
 import { KeyModule } from './modules/key/key.module';
 import { MessageModule } from './modules/message/message.module';
 import { RequestMiddleware } from './global/middleware/request.middleware';
-import { ConfigModule } from '@nestjs/config';
-import configuration from './config/configuration';
 
 @Module({
   imports: [
     Log4jsModule.forRoot(),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration],
-    }),
     DbModule,
     DeviceModule,
     LoginModule,

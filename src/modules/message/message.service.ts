@@ -13,13 +13,6 @@ import { PushDeerDevices } from '../../entity/devices.entity';
 import { PushDeerUsers } from '../../entity/users.entity';
 import { sendToiOS } from '../../helpers/send';
 
-interface SendReady {
-  is_clip: 0 | 1,
-  device_id: string,
-  sendText: string
-}
-
-
 @Injectable()
 export class MessageService {
   constructor(

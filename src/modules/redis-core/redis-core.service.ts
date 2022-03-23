@@ -1,5 +1,5 @@
 import IORedis from 'ioredis';
-import getConfig from '../../config/configuration';
+import { REDIS_HOST, REDIS_PORT } from 'src/helpers/config';
 
 export class RedisCoreService {
   private static redis: IORedis.Redis;
@@ -16,13 +16,11 @@ export class RedisCoreService {
 
   static async init() {
     if (!RedisCoreService.redis) {
-      const config = getConfig().redis;
       RedisCoreService.redis = await new IORedis({
-        port: 56379,
-        host: 'localhost',
+        port: REDIS_PORT,
+        host: REDIS_HOST,
         family: 4,
         db: 0,
-        ...config,
       });
     }
     return RedisCoreService.redis;

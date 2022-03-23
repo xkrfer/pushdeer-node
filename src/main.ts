@@ -7,27 +7,27 @@ import * as session from 'express-session';
 import { TransformInterceptor } from './global/interceptor/transform.interceptor';
 import { ValidationPipe } from './global/pipe/validation.pipe';
 import { RequestInterceptor } from './global/interceptor/request.interceptor';
-import { ConfigService } from '@nestjs/config';
-import { HttpConfig } from './config/config.type';
+import { APP_DEBUG, HTTP_PORT } from './helpers/config';
 
-const logger = new Logger();
+const logger = new Logger('main');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
-  const http: HttpConfig = configService.get('http');
-  const debug: boolean = configService.get('app.debug') ?? false;
   // 允许跨域
   app.enableCors();
-  // 配置swagger
-  const config = new DocumentBuilder()
-    .setTitle('PushDeerOS')
-    .setDescription('PushDeer 接口文档')
-    .setVersion('1.0')
-    .addServer(`http://127.0.0.1:${http.port}`)
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger-ui', app, document);
+
+  if (APP_DEBUG) {
+    // 配置swagger
+    const config = new DocumentBuilder()
+      .setTitle('PushDeerOS')
+      .setDescription('PushDeer 接口文档')
+      .setVersion('1.0')
+      .addServer(`http://127.0.0.1:${HTTP_PORT}`)
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('swagger-ui', app, document);
+    logger.log(`swagger in http://127.0.0.1:${HTTP_PORT}/swagger-ui`);
+  }
   // 使用log4js
   app.useLogger(app.get(Log4jsLogger));
   // 使用session
@@ -40,15 +40,12 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(
     new TransformInterceptor(),
-    debug ? new RequestInterceptor() : null,
+    APP_DEBUG ? new RequestInterceptor() : null,
   );
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(http.port);
-  return {
-    PORT: http.port,
-  };
+  await app.listen(HTTP_PORT);
 }
 
-bootstrap().then((res) => {
-  logger.log(`listen in http://127.0.0.1:${res.PORT}/swagger-ui`);
+bootstrap().then(() => {
+  logger.log(`listen in http://127.0.0.1:${HTTP_PORT}`);
 });
