@@ -18,7 +18,7 @@ export class PushDeerDevices {
   device_id: string;
 
   @Column({ default: 'ios' })
-  type: string;
+  type: 'ios';
 
   @Column({ default: 0 })
   is_clip: 0 | 1;

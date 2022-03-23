@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
 import { PushDeerMessages } from '../../entity/message.entity';
@@ -7,11 +7,18 @@ import {
   PushMessageDto,
   RemoveMessageDto,
 } from '../../dto/message.dto';
-import { Utils } from '../../helpers/utils';
+import { Code, Utils } from '../../helpers/utils';
 import { PushDeerKeys } from '../../entity/keys.entity';
 import { PushDeerDevices } from '../../entity/devices.entity';
 import { PushDeerUsers } from '../../entity/users.entity';
 import { sendToiOS } from '../../helpers/send';
+
+interface SendReady {
+  is_clip: 0 | 1,
+  device_id: string,
+  sendText: string
+}
+
 
 @Injectable()
 export class MessageService {
@@ -22,11 +29,13 @@ export class MessageService {
     private readonly keysRepository: Repository<PushDeerKeys>,
     @InjectRepository(PushDeerDevices)
     private readonly devicesRepository: Repository<PushDeerDevices>,
-  ) {}
+  ) {
+  }
 
   async push(pushMessage: PushMessageDto) {
     const { desp, type = 'markdown', text, pushkey } = pushMessage;
     const keys = Utils.unique(pushkey.split(','));
+    const result: any = [];
     // TODO:// 限制keys的数量
     for (let i = 0; i < keys.length; i++) {
       const key = await this.keysRepository.findOne({
@@ -41,10 +50,13 @@ export class MessageService {
         pushMessage.type = type;
         pushMessage.pushkey_name = key.name;
         await this.messagesRepository.save(pushMessage);
-        await this.runToDevice(key, type, text);
+        const res = await this.runToDevice(key, type, text);
+        result.push(...res);
       }
     }
-    return [];
+    return {
+      result,
+    };
   }
 
   async list(listMessage: ListMessageDto, user: PushDeerUsers) {
@@ -79,21 +91,26 @@ export class MessageService {
     return affected;
   }
 
-  async runToDevice(key: PushDeerKeys, sendType: string, text: string) {
+  async runToDevice(key: PushDeerKeys, sendType: string, text: string): Promise<any[]> {
     const devices = await this.devicesRepository.find({
       uid: key.uid,
     });
-
     if (devices) {
+      const result: any = [];
       const sendText = sendType === 'image' ? '[图片]' : text;
       for (let i = 0; i < devices.length; i++) {
         const { type, device_id, is_clip } = devices[i];
         if (type === 'ios') {
-          sendToiOS(is_clip, device_id, sendText);
+          const res = await sendToiOS(is_clip, device_id, sendText);
+          result.push(res);
         }
       }
-      return true;
+      return result;
     }
-    return '没有可用的设备，请先注册';
+
+    throw new HttpException({
+      code: Code.ARGS,
+      error: `没有可用的设备，请先注册(key name:${key.name})`,
+    }, 200);
   }
 }

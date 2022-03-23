@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
+  HttpCode, Logger,
   Post,
   Query,
   Session,
@@ -20,7 +20,8 @@ import { Code } from '../../helpers/utils';
 
 @Controller('message')
 export class MessageController {
-  constructor(private readonly messageService: MessageService) {}
+  constructor(private readonly messageService: MessageService) {
+  }
 
   @ApiOperation({ summary: '获得当前用户的消息列表' })
   @Post('list')
@@ -41,8 +42,8 @@ export class MessageController {
   @HttpCode(200)
   async push(@Body() body: PushMessageDto) {
     return {
-      code: 0,
-      content: await this.messageService.push(body),
+      code: Code.DONE,
+      data: await this.messageService.push(body),
     };
   }
 
@@ -51,7 +52,7 @@ export class MessageController {
   async pushFormGet(@Query() query: PushMessageDto) {
     return {
       code: 0,
-      content: await this.messageService.push(query),
+      data: await this.messageService.push(query),
     };
   }
 

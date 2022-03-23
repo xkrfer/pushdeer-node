@@ -26,14 +26,14 @@ export class UpdateDeviceDto extends AuthDto {
   is_clip: 0 | 1;
 
   @ApiProperty({
-    description: '应用类型,可选值：ios/android',
+    description: '应用类型,可选值：ios',
     default: 'ios',
     example: 'ios',
     required: false,
   })
   @IsOptional()
-  @Matches(/^(\s)(|ios|android)$/, { message: 'type:应用类型错误' })
-  type: 'ios' | 'android';
+  @Matches(/^(\s)(|ios)$/, { message: 'type:应用类型错误' })
+  type: 'ios';
 }
 
 export class ListDeviceDto extends AuthDto {}

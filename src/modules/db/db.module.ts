@@ -24,3 +24,5 @@ import { ConfigInterface } from '../../config/config.type';
 })
 export class DbModule {
 }
+
+

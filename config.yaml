@@ -11,7 +11,7 @@ redis:
 http:
   port: 8800
 app:
-  debug: true
+  debug: false
 go_push:
   ios_port: 8888
   ios_topic: com.pushdeer.self.ios
