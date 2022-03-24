@@ -4,7 +4,6 @@ const {
   DB_PORT = 3306,
   DB_USERNAME = 'root',
   DB_PASSWORD = 'theVeryp@ssw0rd',
-  HTTP_PORT = 8800,
   REDIS_PORT = 6379,
   REDIS_HOST = '127.0.0.1',
   GO_RUSH_ADDRESS = '127.0.0.1',
@@ -14,6 +13,8 @@ const {
   GO_PUSH_IOS_CLIP_PORT = 8889,
   APP_DEBUG = false,
 } = process.env;
+
+const HTTP_PORT = 8800;
 
 export {
   DB_HOST,
@@ -29,5 +30,5 @@ export {
   GO_PUSH_IOS_TOPIC,
   GO_PUSH_IOS_PORT,
   GO_PUSH_IOS_CLIP_PORT,
-  APP_DEBUG
+  APP_DEBUG,
 };

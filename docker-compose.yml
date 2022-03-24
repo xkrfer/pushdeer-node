@@ -1,0 +1,40 @@
+version: '2.1'
+services:
+  mariadb:
+    image: 'mariadb:10.5.8-focal'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent","--password=$$MYSQL_ROOT_PASSWORD"]
+      timeout: 10s
+      retries: 3
+#    volumes:
+#      - 'mariadb_data:/var/lib/mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=theVeryp@ssw0rd
+      - MYSQL_DATABASE=pushdeer
+  redis:
+    image: 'bitnami/redis:6.0.16'
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  app:
+    build: '.'
+    ports:
+      - '8800:8800'
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_DATABASE=pushdeer
+      - DB_PASSWORD=theVeryp@ssw0rd
+      - REDIS_HOST=redis
+      - GO_PUSH_IOS_TOPIC=com.pushdeer.self.ios
+      - GO_PUSH_IOS_CLIP_TOPIC=com.pushdeer.self.ios.Clip
+      - APP_DEBUG=true
+#volumes:
+#  mariadb_data:
