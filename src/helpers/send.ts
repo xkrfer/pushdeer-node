@@ -43,7 +43,7 @@ export async function sendToiOS(
     ],
   };
   const response = await request({
-    url: `${GO_RUSH_ADDRESS}:${port}/api/push`,
+    url: `http://${GO_RUSH_ADDRESS}:${port}/api/push`,
     method: 'POST',
     data: notification,
   });

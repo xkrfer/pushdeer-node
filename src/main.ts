@@ -8,6 +8,7 @@ import { TransformInterceptor } from './global/interceptor/transform.interceptor
 import { ValidationPipe } from './global/pipe/validation.pipe';
 import { RequestInterceptor } from './global/interceptor/request.interceptor';
 import { APP_DEBUG, HTTP_PORT } from './helpers/config';
+import * as Config from './helpers/config';
 
 const logger = new Logger('main');
 
@@ -44,6 +45,7 @@ async function bootstrap() {
   );
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(HTTP_PORT);
+  logger.log(Config);
 }
 
 bootstrap().then(() => {
