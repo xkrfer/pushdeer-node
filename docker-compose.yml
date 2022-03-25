@@ -17,6 +17,12 @@ services:
       test: ["CMD", "redis-cli","ping"]
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+  gorush:
+    image: 'appleboy/gorush'
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
   app:
     build: '.'
     ports:

@@ -1,3 +1,12 @@
+FROM golang AS gorush
+
+WORKDIR /push
+
+RUN git clone https://github.com/appleboy/gorush.git --depth=1 \
+    && cd gorush \
+    && go install \
+    && go build -o ../bin/gorush
+
 FROM node:14.17.6 AS build
 
 WORKDIR /app
@@ -17,6 +26,8 @@ LABEL maintainer="xkrfer <xkrfer@gmail.com>"
 WORKDIR /release
 
 COPY docker  /release/
+
+COPY --from=gorush /push/bin/gorush /release/push/gorush
 
 COPY package.json /release/
 
