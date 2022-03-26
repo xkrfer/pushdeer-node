@@ -1,73 +1,73 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现版本，采用 [nestjs](https://github.com/nestjs/nest) 开发 。
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### 起因
+在 [easychen](https://github.com/easychen) 的微博中知道了这个项目，了解了一下觉得非常有意思，只要实现了相关api就能够使用pushdeer的自架版客户端。正好这段时间在看 [nestjs](https://github.com/nestjs/nest) ，于是就
+以移植 [pushdeer](https://github.com/easychen/pushdeer) 为目的使用 [nestjs](https://github.com/nestjs/nest) 进行开发。
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### 说明
+该项目参考了 [pushdeer](https://github.com/easychen/pushdeer) 的大量写法，包括但不限于API、 Dockerfile、docker-compose等
 
-## Description
+### 特性
+- 实现 [pushdeer](https://github.com/easychen/pushdeer) 的大部分API
+- 仅支持iOS自架版客户端以及对应的轻应用，配合 [使用自架服务器端和自架版客户端](https://github.com/easychen/pushdeer#%E4%BD%BF%E7%94%A8%E8%87%AA%E6%9E%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E8%87%AA%E6%9E%B6%E7%89%88%E5%AE%A2%E6%88%B7%E7%AB%AF) 食用更佳
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 运行方式
+#### 环境变量
+| 变量                   | 默认值       | 说明                                               |
+| ---------------------------- | --------------- | ---------------------------------------------------- |
+| DB_HOST                      | 127.0.0.1       | 数据库地址，支持mariadb 10.5.8+ 、mysql 8+  |
+| DB_DATABASE                  | pushdeer        | 数据库                                            |
+| DB_USERNAME                  | root            | 数据库用户名                                   |
+| DB_PORT                      | 3306            | 数据库端口                                      |
+| DB_PASSWORD                  | theVeryp@ssw0rd | 数据库密码                                      |
+| REDIS_PORT                   | 6379            | redis端口号                                       |
+| REDIS_HOST                   | 127.0.0.1       | redis地址                                          |
+| APP_DEBUG                    | false           | 是否开启debug模式，开启时终端会打印相关请求 |
+| MAX_PUSH_EVERY_USER_PER_MINUTE | 120             | 每个ip下每分钟发送消息的最大次数是   |
+| MAX_PUSH_KEY_PER_TIME        | 100             | 批量发消息时最大pushkey数量                |
+| MAX_EVERY_API_LIMIT_PER_MINUTE | 60              | 每个ip下每分钟调用接口的最大次数（发送消息接口除外） |
 
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
+##### 使用目录下docker-compose
 
 ```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+git clone https://github.com/xkrfer/pushdeer-node --depth=1
 
-# production mode
-$ npm run start:prod
+docker-compose -f <docker-compose配置文件> up --build -d
+
+# 运行成功后 访问 http://ip:8800 可以确认是否搭建成功
+
 ```
+- docker-compose.yml 
+  - 数据库为docker环境，适合对数据留存不敏感用户使用。
+- docker-compose.mysql.yml 
+  - 需自行在文件中填入mysql或mariadb的相关信息，适合已有数据库服务的用户使用。
+  
+> 注意：使用本目录下docker-compose配置构建的用户需要注意，由于需要构建gorush，所以需要保证服务器支持访问github才能构建成功。如果不能访问，可以将
+> Dockerfile中的 https://github.com/appleboy/gorush.git 自行换成换成服务器可访问地址即可。   
 
-## Test
+
+### 开发方式
 
 ```bash
-# unit tests
-$ npm run test
+git clone https://github.com/xkrfer/pushdeer-node
 
-# e2e tests
-$ npm run test:e2e
+cd pushdeer-node
 
-# test coverage
-$ npm run test:cov
+npm install
+
+docker-compose -f docker-compose.dev.yml up  -d
 ```
 
-## Support
+### 致谢
+感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、
+[Hext123](https://github.com/Hext123) 等。
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+本项目是 [pushdeer](https://github.com/easychen/pushdeer) Node练手版，正式上生产建议使用 [pushdeer](https://github.com/easychen/pushdeer) 。
 
-## Stay in touch
+### License
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Copyright 2022 [xkrfer](https://github.com/xkrfer).
 
-## License
+Licensed under the MIT License.
 
-Nest is [MIT licensed](LICENSE).

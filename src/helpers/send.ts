@@ -1,10 +1,10 @@
 import { UpdateDeviceDto } from '../dto/device.dto';
 import { request } from './request';
 import {
-  GO_PUSH_IOS_CLIP_PORT,
-  GO_PUSH_IOS_CLIP_TOPIC,
-  GO_PUSH_IOS_PORT,
-  GO_PUSH_IOS_TOPIC,
+  GO_RUSH_IOS_CLIP_PORT,
+  GO_RUSH_IOS_CLIP_TOPIC,
+  GO_RUSH_IOS_PORT,
+  GO_RUSH_IOS_TOPIC,
   GO_RUSH_ADDRESS,
 } from './config';
 
@@ -28,8 +28,8 @@ export async function sendToiOS(
   device_id: UpdateDeviceDto['device_id'],
   message: string,
 ) {
-  const topic = is_clip === 0 ? GO_PUSH_IOS_TOPIC : GO_PUSH_IOS_CLIP_TOPIC;
-  const port = is_clip === 0 ? GO_PUSH_IOS_PORT : GO_PUSH_IOS_CLIP_PORT;
+  const topic = is_clip === 0 ? GO_RUSH_IOS_TOPIC : GO_RUSH_IOS_CLIP_TOPIC;
+  const port = is_clip === 0 ? GO_RUSH_IOS_PORT : GO_RUSH_IOS_CLIP_PORT;
   const notification: AppleSendInterface = {
     notifications: [
       {
