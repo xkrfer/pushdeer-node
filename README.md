@@ -5,7 +5,7 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 以移植 [pushdeer](https://github.com/easychen/pushdeer) 为目的使用 [nestjs](https://github.com/nestjs/nest) 进行开发。
 
 ### 说明
-该项目参考了 [pushdeer](https://github.com/easychen/pushdeer) 的大量写法，包括但不限于API、 Dockerfile、docker-compose等
+该项目参考了 [pushdeer](https://github.com/easychen/pushdeer) 的大量写法，包括但不限于API、 Dockerfile、docker-compose.yml等
 
 ### 特性
 - 实现 [pushdeer](https://github.com/easychen/pushdeer) 的大部分API
@@ -27,7 +27,7 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 | MAX_PUSH_KEY_PER_TIME        | 100             | 批量发消息时最大pushkey数量                |
 | MAX_EVERY_API_LIMIT_PER_MINUTE | 60              | 每个ip下每分钟调用接口的最大次数（发送消息接口除外） |
 
-##### 使用目录下docker-compose
+#### 使用目录下docker-compose
 
 ```bash
 
