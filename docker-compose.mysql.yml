@@ -1,0 +1,22 @@
+version: '2.1'
+services:
+  redis:
+    image: 'bitnami/redis:6.2'
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  app:
+    build: '.'
+    ports:
+      - '8800:8800'
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - DB_HOST=<your mysql host>
+      - DB_PORT=<your mysql port>
+      - DB_USERNAME=<your mysql username>
+      - DB_DATABASE=<your mysql database>
+      - DB_PASSWORD=<your mysql password>
+      - REDIS_HOST=redis
