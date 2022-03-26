@@ -3,6 +3,8 @@ FROM golang AS gorush
 WORKDIR /push
 
 RUN git clone https://github.com/appleboy/gorush.git --depth=1 \
+    && go env -w GO111MODULE=on \
+    && go env -w GOPROXY=https://goproxy.cn,direct \
     && cd gorush \
     && go install \
     && go build -o ../bin/gorush
