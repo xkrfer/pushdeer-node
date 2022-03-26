@@ -49,6 +49,7 @@ docker-compose -f <docker-compose配置文件> up --build -d
 
 ### 开发方式
 
+#### 启动项目
 ```bash
 git clone https://github.com/xkrfer/pushdeer-node
 
@@ -56,9 +57,16 @@ cd pushdeer-node
 
 npm install
 
-docker-compose -f docker-compose.dev.yml up  -d
+npm run start:dev
+
+# 端口号8800
+
 ```
 
+#### mariadb、redis
+```bash
+docker-compose -f docker-compose.dev.yml up  -d
+```
 ### 致谢
 感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、
 [Hext123](https://github.com/Hext123) 等。
