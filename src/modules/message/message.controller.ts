@@ -17,6 +17,8 @@ import {
 } from '../../dto/message.dto';
 import { AuthGuard } from '../../global/guard/auth.guard';
 import { Code } from '../../helpers/utils';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { MAX_EVERY_API_LIMIT_PER_MINUTE, MAX_PUSH_EVERY_USER_PER_MINUTE } from '../../helpers/config';
 
 @Controller('message')
 export class MessageController {
@@ -27,6 +29,7 @@ export class MessageController {
   @Post('list')
   @HttpCode(200)
   @UseGuards(AuthGuard)
+  @Throttle(Number(MAX_EVERY_API_LIMIT_PER_MINUTE), 60)
   async list(@Body() body: ListMessageDto, @Session() session) {
     const messages = await this.messageService.list(body, session.user);
     return {
@@ -40,6 +43,7 @@ export class MessageController {
   @ApiOperation({ summary: '推送消息' })
   @Post('push')
   @HttpCode(200)
+  @Throttle(Number(MAX_PUSH_EVERY_USER_PER_MINUTE), 60)
   async push(@Body() body: PushMessageDto) {
     return {
       code: Code.DONE,
@@ -47,8 +51,9 @@ export class MessageController {
     };
   }
 
-  @ApiOperation({ summary: '推送消息Get请求' })
+  @ApiOperation({ summary: '推送消息GET请求' })
   @Get('push')
+  @Throttle(Number(MAX_PUSH_EVERY_USER_PER_MINUTE), 60)
   async pushFormGet(@Query() query: PushMessageDto) {
     return {
       code: 0,
@@ -59,7 +64,6 @@ export class MessageController {
   @ApiOperation({ summary: '删除消息' })
   @Post('remove')
   @HttpCode(200)
-  @UseGuards(AuthGuard)
   async remove(@Body() body: RemoveMessageDto, @Session() session) {
     const count = await this.messageService.remove(body, session.user);
     return {

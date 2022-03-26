@@ -4,6 +4,7 @@ import { LoginService } from './login.service';
 import { Code } from '../../helpers/utils';
 import { AppleLoginDto } from '../../dto/user.dto';
 import { APP_DEBUG } from '../../helpers/config';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('login')
 export class LoginController {
@@ -14,6 +15,7 @@ export class LoginController {
 
   @ApiOperation({ summary: '模拟登入' })
   @Get('fake')
+  @SkipThrottle(true)
   async fakeLogin() {
     if (APP_DEBUG) {
       const token = await this.loginService.fakeLogin();

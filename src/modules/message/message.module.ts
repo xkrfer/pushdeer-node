@@ -5,9 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PushDeerMessages } from '../../entity/message.entity';
 import { PushDeerKeys } from '../../entity/keys.entity';
 import { PushDeerDevices } from '../../entity/devices.entity';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PushDeerMessages, PushDeerKeys, PushDeerDevices])],
+  imports: [
+    TypeOrmModule.forFeature([PushDeerMessages, PushDeerKeys, PushDeerDevices]),
+  ],
   controllers: [MessageController],
   providers: [MessageService],
 })

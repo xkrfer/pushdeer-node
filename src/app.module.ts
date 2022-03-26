@@ -9,6 +9,9 @@ import { LoginModule } from './modules/login/login.module';
 import { KeyModule } from './modules/key/key.module';
 import { MessageModule } from './modules/message/message.module';
 import { RequestMiddleware } from './global/middleware/request.middleware';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { MAX_EVERY_API_LIMIT_PER_MINUTE } from './helpers/config';
 
 @Module({
   imports: [
@@ -19,9 +22,16 @@ import { RequestMiddleware } from './global/middleware/request.middleware';
     UserModule,
     KeyModule,
     MessageModule,
+    ThrottlerModule.forRoot({
+      ttl: 60, // 每分钟
+      limit: Number(MAX_EVERY_API_LIMIT_PER_MINUTE) //  调接口
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
+  }],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

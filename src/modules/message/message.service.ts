@@ -12,6 +12,7 @@ import { PushDeerKeys } from '../../entity/keys.entity';
 import { PushDeerDevices } from '../../entity/devices.entity';
 import { PushDeerUsers } from '../../entity/users.entity';
 import { sendToiOS } from '../../helpers/send';
+import { MAX_PUSH_KEY_PER_TIME } from '../../helpers/config';
 
 @Injectable()
 export class MessageService {
@@ -25,11 +26,16 @@ export class MessageService {
   ) {
   }
 
+
   async push(pushMessage: PushMessageDto) {
     const { desp, type = 'markdown', text, pushkey } = pushMessage;
     const keys = Utils.unique(pushkey.split(','));
     const result: any = [];
-    // TODO:// 限制keys的数量
+
+    if (keys.length > Number(MAX_PUSH_KEY_PER_TIME)) {
+      keys.splice(100);
+    }
+
     for (let i = 0; i < keys.length; i++) {
       const key = await this.keysRepository.findOne({
         key: keys[i],
