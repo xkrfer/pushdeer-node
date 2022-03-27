@@ -62,6 +62,11 @@ Dockerfile中的 https://github.com/appleboy/gorush.git 自行换成换成服务
 
 ### 开发方式
 
+#### 启动mariadb、redis
+```bash
+docker-compose -f docker-compose.dev.yml up  -d
+```
+
 #### 启动项目
 ```bash
 git clone https://github.com/xkrfer/pushdeer-node
@@ -76,10 +81,6 @@ npm run start:dev
 
 ```
 
-#### 安装mariadb、redis
-```bash
-docker-compose -f docker-compose.dev.yml up  -d
-```
 ### 致谢
 感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、[Hext123](https://github.com/Hext123) 等。
 
