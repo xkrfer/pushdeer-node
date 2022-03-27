@@ -1,7 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USERNAME } from 'src/helpers/config';
-
+import {
+  DB_DATABASE,
+  DB_HOST,
+  DB_PASSWORD,
+  DB_PORT,
+  DB_TYPE,
+  DB_USERNAME,
+} from 'src/helpers/config';
 
 @Module({
   imports: [
@@ -9,7 +15,7 @@ import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USERNAME } from 'src/hel
       synchronize: true,
       charset: 'utf8mb4',
       timezone: '+08:00',
-      type: 'mariadb',
+      type: DB_TYPE,
       port: Number(DB_PORT),
       username: DB_USERNAME,
       password: DB_PASSWORD,
@@ -19,7 +25,4 @@ import { DB_DATABASE, DB_HOST, DB_PASSWORD, DB_PORT, DB_USERNAME } from 'src/hel
     }),
   ],
 })
-export class DbModule {
-}
-
-
+export class DbModule {}

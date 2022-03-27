@@ -1,3 +1,23 @@
+interface IENV {
+  DB_HOST: string;
+  DB_DATABASE: string;
+  DB_PORT: number;
+  DB_TYPE: 'mysql' | 'mariadb';
+  DB_USERNAME: string;
+  DB_PASSWORD: string;
+  REDIS_PORT: number;
+  REDIS_HOST: string;
+  GO_RUSH_ADDRESS: string;
+  GO_RUSH_IOS_CLIP_TOPIC: string;
+  GO_RUSH_IOS_TOPIC: string;
+  GO_RUSH_IOS_PORT: number;
+  GO_RUSH_IOS_CLIP_PORT: number;
+  APP_DEBUG: boolean;
+  MAX_PUSH_EVERY_USER_PER_MINUTE: number;
+  MAX_PUSH_KEY_PER_TIME: number;
+  MAX_EVERY_API_LIMIT_PER_MINUTE: number;
+}
+
 const {
   DB_HOST = '127.0.0.1',
   DB_DATABASE = 'pushdeer',
@@ -6,6 +26,7 @@ const {
   DB_PASSWORD = 'theVeryp@ssw0rd',
   REDIS_PORT = 6379,
   REDIS_HOST = '127.0.0.1',
+  DB_TYPE = 'mariadb',
   GO_RUSH_ADDRESS = '127.0.0.1',
   GO_RUSH_IOS_CLIP_TOPIC = 'com.pushdeer.self.ios.Clip',
   GO_RUSH_IOS_TOPIC = 'com.pushdeer.self.ios',
@@ -14,8 +35,8 @@ const {
   APP_DEBUG = false,
   MAX_PUSH_EVERY_USER_PER_MINUTE = 120,
   MAX_PUSH_KEY_PER_TIME = 100,
-  MAX_EVERY_API_LIMIT_PER_MINUTE = 60
-} = process.env;
+  MAX_EVERY_API_LIMIT_PER_MINUTE = 60,
+} = process.env as unknown as IENV;
 
 const HTTP_PORT = 8800;
 
@@ -25,6 +46,7 @@ export {
   DB_PORT,
   DB_USERNAME,
   DB_PASSWORD,
+  DB_TYPE,
   HTTP_PORT,
   REDIS_PORT,
   REDIS_HOST,
@@ -36,5 +58,5 @@ export {
   APP_DEBUG,
   MAX_PUSH_EVERY_USER_PER_MINUTE,
   MAX_PUSH_KEY_PER_TIME,
-  MAX_EVERY_API_LIMIT_PER_MINUTE
+  MAX_EVERY_API_LIMIT_PER_MINUTE,
 };
