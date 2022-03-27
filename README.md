@@ -13,21 +13,21 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 
 ### 运行方式
 #### 环境变量
-| 变量                   | 默认值       | 说明                                               |
-| ---------------------------- | --------------- | ---------------------------------------------------- |
-| DB_HOST                      | 127.0.0.1       | 数据库地址，支持mariadb 10.5.8+ 、mysql 8+  |
-| DB_DATABASE                  | pushdeer        | 数据库                                            |
-| DB_USERNAME                  | root            | 数据库用户名                                   |
-| DB_PORT                      | 3306            | 数据库端口                                      |
-| DB_PASSWORD                  | theVeryp@ssw0rd | 数据库密码                                      |
-| REDIS_PORT                   | 6379            | redis端口号                                       |
-| REDIS_HOST                   | 127.0.0.1       | redis地址                                          |
-| APP_DEBUG                    | false           | 是否开启debug模式，开启时终端会打印相关请求 |
-| MAX_PUSH_EVERY_USER_PER_MINUTE | 120             | 每个ip下每分钟发送消息的最大次数是   |
-| MAX_PUSH_KEY_PER_TIME        | 100             | 批量发消息时最大pushkey数量                |
-| MAX_EVERY_API_LIMIT_PER_MINUTE | 60              | 每个ip下每分钟调用接口的最大次数（发送消息接口除外） |
+| 变量                   | 默认值             | 说明                              |
+| ---------------------------- |-----------------|---------------------------------|
+| DB_HOST                      | 127.0.0.1       | 数据库地址，支持mariadb 10.5.8+ 、mysql 8+ |
+| DB_DATABASE                  | pushdeer        | 数据库                             |
+| DB_USERNAME                  | root            | 数据库用户名                          |
+| DB_PORT                      | 3306            | 数据库端口                           |
+| DB_PASSWORD                  | theVeryp@ssw0rd | 数据库密码                           |
+| REDIS_PORT                   | 6379            | redis端口号                        |
+| REDIS_HOST                   | 127.0.0.1（开发时）  | redis地址                     |
+| APP_DEBUG                    | false           | 是否开启debug模式，开启时终端会打印相关请求        |
+| MAX_PUSH_EVERY_USER_PER_MINUTE | 120             | 每个ip下每分钟发送消息的最大次数是              |
+| MAX_PUSH_KEY_PER_TIME        | 100             | 批量发消息时最大pushkey数量               |
+| MAX_EVERY_API_LIMIT_PER_MINUTE | 60              | 每个ip下每分钟调用接口的最大次数（发送消息接口除外）     |
 
-#### 使用目录下docker-compose
+#### 使用目录下docker-compose配置文件
 
 ```bash
 
@@ -43,8 +43,21 @@ docker-compose -f <docker-compose配置文件> up --build -d
 - docker-compose.mysql.yml 
   - 需自行在文件中填入mysql或mariadb的相关信息，适合已有数据库服务的用户使用。
   
-> 注意：使用本目录下docker-compose配置构建的用户需要注意，由于需要构建gorush，所以需要保证服务器支持访问github才能构建成功。如果不能访问，可以将
-> Dockerfile中的 https://github.com/appleboy/gorush.git 自行换成换成服务器可访问地址即可。   
+注意：使用本目录下docker-compose配置构建的用户需要注意，由于需要构建gorush，所以需要保证服务器支持访问github才能构建成功。如果不能访问，可以将
+Dockerfile中的 https://github.com/appleboy/gorush.git 自行换成换成服务器可访问地址即可，以码云为例。
+
+```diff
+// Dockerfile
+- RUN git clone https://github.com/appleboy/gorush.git --depth=1 \
++ RUN git clone https://gitee.com/mirrors/gorush --depth=1 \
+```
+
+如果想省区编译这一步，可将docker-compose.yml中app部分改成如下即可
+
+```diff
+- build: '.'
++ image: 'xkrfer/pushdeer-node'
+```
 
 
 ### 开发方式
@@ -63,15 +76,14 @@ npm run start:dev
 
 ```
 
-#### mariadb、redis
+#### 安装mariadb、redis
 ```bash
 docker-compose -f docker-compose.dev.yml up  -d
 ```
 ### 致谢
-感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、
-[Hext123](https://github.com/Hext123) 等。
+感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、[Hext123](https://github.com/Hext123) 等。
 
-本项目是 [pushdeer](https://github.com/easychen/pushdeer) Node练手版，正式上生产建议使用 [pushdeer](https://github.com/easychen/pushdeer) 。
+本项目是 [pushdeer](https://github.com/easychen/pushdeer) Node练手版，上生产建议使用 [pushdeer](https://github.com/easychen/pushdeer) 。
 
 ### License
 
