@@ -55,16 +55,9 @@ docker-compose -f <docker-compose配置文件> up --build -d
 - docker-compose.mysql.yml
     - 需自行在文件中填入mysql或mariadb的相关信息，适合已有数据库服务的用户使用。
 
-注意：使用本目录下docker-compose配置构建的用户需要注意，由于需要构建gorush，所以需要保证服务器支持访问github才能构建成功。如果不能访问，可以将
-Dockerfile中的 https://github.com/appleboy/gorush.git 自行换成换成服务器可访问地址即可，以码云为例。
+> 注意：使用源码构建的用户，因为在构建中需从外网拉取相关依赖，故构建机器需支持外网访问。
 
-```diff
-// Dockerfile
-- RUN git clone https://github.com/appleboy/gorush.git --depth=1 \
-+ RUN git clone https://gitee.com/mirrors/gorush --depth=1 \
-```
-
-如果想省区编译这一步，可将docker-compose.yml中app部分改成如下即可
+如果想省去源码构建这一步，可将docker-compose.yml中app部分改成如下即可
 
 ```diff
 - build: '.'

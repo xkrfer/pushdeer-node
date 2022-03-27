@@ -3,25 +3,23 @@ FROM golang AS gorush
 WORKDIR /push
 
 RUN git clone https://github.com/appleboy/gorush.git --depth=1 \
-    && go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
     && cd gorush \
     && go install \
     && go build -o ../bin/gorush
 
-FROM node:14.17.6 AS build
+FROM node:16.4.2 AS build
 
 WORKDIR /app
 
 COPY package.json /app/
 
-RUN npm install --registry=https://registry.npmmirror.com
+RUN npm install
 
 COPY . /app/
 
 RUN npm run build
 
-FROM node:14.17.6-alpine AS release
+FROM node:16.4.2-alpine AS release
 
 LABEL maintainer="xkrfer <xkrfer@gmail.com>"
 
@@ -33,8 +31,7 @@ COPY --from=gorush /push/bin/gorush /release/push/gorush
 
 COPY package.json /release/
 
-RUN npm install --registry=https://registry.npmmirror.com --production \
-    && echo "http://mirrors.ustc.edu.cn/alpine/v3.9/main/" > /etc/apk/repositories \
+RUN npm install --production \
     && apk update \
     && apk upgrade \
     && apk add --no-cache bash bash-doc bash-completion \
