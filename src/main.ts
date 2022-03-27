@@ -9,7 +9,7 @@ import { ValidationPipe } from './global/pipe/validation.pipe';
 import { RequestInterceptor } from './global/interceptor/request.interceptor';
 import { APP_DEBUG, HTTP_PORT } from './helpers/config';
 import * as Config from './helpers/config';
-
+import * as cookieParser from 'cookie-parser';
 const logger = new Logger('main');
 
 async function bootstrap() {
@@ -39,6 +39,8 @@ async function bootstrap() {
       saveUninitialized: true,
     }),
   );
+  app.use(cookieParser());
+
   app.useGlobalInterceptors(
     new TransformInterceptor(),
     APP_DEBUG ? new RequestInterceptor() : null,

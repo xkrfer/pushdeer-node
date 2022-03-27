@@ -8,10 +8,7 @@ import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('login')
 export class LoginController {
-  constructor(
-    private readonly loginService: LoginService,
-  ) {
-  }
+  constructor(private readonly loginService: LoginService) {}
 
   @ApiOperation({ summary: '模拟登入' })
   @Get('fake')
@@ -30,7 +27,6 @@ export class LoginController {
       code: Code.ARGS,
       error: 'Debug only',
     };
-
   }
 
   @ApiOperation({ summary: 'apple 登入' })

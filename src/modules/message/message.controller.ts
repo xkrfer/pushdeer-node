@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode, Logger,
+  HttpCode,
   Post,
   Query,
   Session,
@@ -17,13 +17,15 @@ import {
 } from '../../dto/message.dto';
 import { AuthGuard } from '../../global/guard/auth.guard';
 import { Code } from '../../helpers/utils';
-import { SkipThrottle, Throttle } from '@nestjs/throttler';
-import { MAX_EVERY_API_LIMIT_PER_MINUTE, MAX_PUSH_EVERY_USER_PER_MINUTE } from '../../helpers/config';
+import { Throttle } from '@nestjs/throttler';
+import {
+  MAX_EVERY_API_LIMIT_PER_MINUTE,
+  MAX_PUSH_EVERY_USER_PER_MINUTE,
+} from '../../helpers/config';
 
 @Controller('message')
 export class MessageController {
-  constructor(private readonly messageService: MessageService) {
-  }
+  constructor(private readonly messageService: MessageService) {}
 
   @ApiOperation({ summary: '获得当前用户的消息列表' })
   @Post('list')

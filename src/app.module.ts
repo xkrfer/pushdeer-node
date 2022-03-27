@@ -12,6 +12,8 @@ import { RequestMiddleware } from './global/middleware/request.middleware';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { MAX_EVERY_API_LIMIT_PER_MINUTE } from './helpers/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -24,19 +26,31 @@ import { MAX_EVERY_API_LIMIT_PER_MINUTE } from './helpers/config';
     MessageModule,
     ThrottlerModule.forRoot({
       ttl: 60, // 每分钟
-      limit: Number(MAX_EVERY_API_LIMIT_PER_MINUTE) //  调接口
+      limit: Number(MAX_EVERY_API_LIMIT_PER_MINUTE), //  调接口
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static/dist'),
+      exclude: [
+        '/device*',
+        '/key*',
+        '/login*',
+        '/message*',
+        '/user*',
+        '/appid*',
+      ],
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, {
-    provide: APP_GUARD,
-    useClass: ThrottlerGuard,
-  }],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(RequestMiddleware)
-      .forRoutes('*');
+    consumer.apply(RequestMiddleware).forRoutes('*');
   }
 }
