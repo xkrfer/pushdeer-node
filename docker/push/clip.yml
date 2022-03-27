@@ -15,7 +15,7 @@ core:
     enabled: false
     path: "gorush.pid"
     override: true
- 
+
 api:
   push_uri: "/api/push"
   stat_go_uri: "/api/stat/go"

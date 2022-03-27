@@ -8,7 +8,6 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
   app:
     build: '.'
-    #image: 'xkrfer/pushdeer-node'
     ports:
       - '8800:8800'
     depends_on:
