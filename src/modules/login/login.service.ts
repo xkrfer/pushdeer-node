@@ -4,12 +4,10 @@ import { PushDeerUsers } from '../../entity/users.entity';
 import { Utils } from '../../helpers/utils';
 import { RedisCoreService } from '../redis-core/redis-core.service';
 import { AppleLoginDto } from '../../dto/user.dto';
-import { verifyAppleToken } from '../../helpers/verify.login';
-
+import { githubLogin, verifyAppleToken } from '../../helpers/verify.login';
 @Injectable()
 export class LoginService {
-  constructor(private readonly userService: UserService) {
-  }
+  constructor(private readonly userService: UserService) {}
 
   async fakeLogin() {
     const fakeUser = {
@@ -31,6 +29,16 @@ export class LoginService {
       userInfo.apple_id,
       userInfo.email,
       userInfo.name,
+    );
+    return this.createToken(user);
+  }
+
+  async githubLogin(code: string) {
+    const data = await githubLogin(code);
+    const user = await this.createUser(
+      data.node_id,
+      `${data.name}@${data.login}`,
+      data.name,
     );
     return this.createToken(user);
   }

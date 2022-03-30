@@ -1,4 +1,13 @@
-import { Controller, Get, HttpCode, Query, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Query,
+  Post,
+  Body,
+  Redirect,
+  Res,
+} from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
 import { Code } from '../../helpers/utils';
@@ -40,5 +49,18 @@ export class LoginController {
       },
       code: Code.DONE,
     };
+  }
+
+  @Get('github')
+  async githubLogin(@Query() query, @Res() res) {
+    const token = await this.loginService.githubLogin(query.code);
+    // 设置cookie,signed启用加密
+    res.cookie('token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+      httpOnly: false,
+      signed: false,
+    });
+    res.redirect('/');
+    return res.send();
   }
 }
