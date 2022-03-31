@@ -14,9 +14,7 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 ### 特性
 
 - 实现 [pushdeer](https://github.com/easychen/pushdeer) 的大部分API
--
-
-仅支持iOS自架版客户端以及对应的轻应用，配合 [使用自架服务器端和自架版客户端](https://github.com/easychen/pushdeer#%E4%BD%BF%E7%94%A8%E8%87%AA%E6%9E%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E8%87%AA%E6%9E%B6%E7%89%88%E5%AE%A2%E6%88%B7%E7%AB%AF)
+- 仅支持iOS自架版客户端以及对应的轻应用，配合 [使用自架服务器端和自架版客户端](https://github.com/easychen/pushdeer#%E4%BD%BF%E7%94%A8%E8%87%AA%E6%9E%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E8%87%AA%E6%9E%B6%E7%89%88%E5%AE%A2%E6%88%B7%E7%AB%AF)
 食用更佳
 
 ### 运行方式
