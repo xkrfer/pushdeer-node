@@ -19,6 +19,7 @@ export class ValidationPipe implements PipeTransform<any> {
     }
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
+    console.log(errors);
     if (errors.length > 0) {
       const { constraints } = errors[0];
       const error = Object.values(constraints)[0];
@@ -35,6 +36,6 @@ export class ValidationPipe implements PipeTransform<any> {
 
   private toValidate(metatype: Type<any>): boolean {
     const types = [String, Boolean, Number, Array, Object];
-    return !types.find(type => metatype === type);
+    return !types.find((type) => metatype === type);
   }
 }

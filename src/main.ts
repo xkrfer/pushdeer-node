@@ -47,7 +47,6 @@ async function bootstrap() {
   );
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(HTTP_PORT);
-  logger.log(Config);
 }
 
 bootstrap().then(() => {

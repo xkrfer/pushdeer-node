@@ -8,7 +8,6 @@ import {
   GO_RUSH_ADDRESS,
 } from './config';
 
-
 interface AppleNotifications {
   tokens: string[];
   platform: number;
@@ -21,7 +20,6 @@ interface AppleNotifications {
 interface AppleSendInterface {
   notifications: AppleNotifications[];
 }
-
 
 export async function sendToiOS(
   is_clip: UpdateDeviceDto['is_clip'],
