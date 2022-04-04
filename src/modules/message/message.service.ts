@@ -23,9 +23,7 @@ export class MessageService {
     private readonly keysRepository: Repository<PushDeerKeys>,
     @InjectRepository(PushDeerDevices)
     private readonly devicesRepository: Repository<PushDeerDevices>,
-  ) {
-  }
-
+  ) {}
 
   async push(pushMessage: PushMessageDto) {
     const { desp, type = 'markdown', text, pushkey } = pushMessage;
@@ -90,7 +88,11 @@ export class MessageService {
     return affected;
   }
 
-  async runToDevice(key: PushDeerKeys, sendType: string, text: string): Promise<any[]> {
+  async runToDevice(
+    key: PushDeerKeys,
+    sendType: string,
+    text: string,
+  ): Promise<any[]> {
     const devices = await this.devicesRepository.find({
       uid: key.uid,
     });
@@ -107,9 +109,12 @@ export class MessageService {
       return result;
     }
 
-    throw new HttpException({
-      code: Code.ARGS,
-      error: `没有可用的设备，请先注册(key name:${key.name})`,
-    }, 200);
+    throw new HttpException(
+      {
+        code: Code.ARGS,
+        error: `没有可用的设备，请先注册(key name:${key.name})`,
+      },
+      200,
+    );
   }
 }

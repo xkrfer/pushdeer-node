@@ -7,6 +7,6 @@ import { PushDeerKeys } from '../../entity/keys.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([PushDeerKeys])],
   controllers: [KeyController],
-  providers: [KeyService]
+  providers: [KeyService],
 })
 export class KeyModule {}
