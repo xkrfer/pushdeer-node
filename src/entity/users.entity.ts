@@ -24,6 +24,9 @@ export class PushDeerUsers {
   apple_id: string;
 
   @Column({ nullable: true })
+  github_id: string;
+
+  @Column({ nullable: true })
   wechat_id: string;
 
   @Column({ default: 1 })

@@ -1,9 +1,10 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, Repository } from 'typeorm';
+import { ILike, MoreThan, Repository } from 'typeorm';
 import { PushDeerMessages } from '../../entity/message.entity';
 import {
   ListMessageDto,
+  ListMessageV2Dto,
   PushMessageDto,
   RemoveMessageDto,
 } from '../../dto/message.dto';
@@ -116,5 +117,42 @@ export class MessageService {
       },
       200,
     );
+  }
+
+  async getListV2(listMessage: ListMessageV2Dto, user: PushDeerUsers) {
+    const { page = 1, pageSize = 10, keyword = '' } = listMessage;
+    return await this.messagesRepository.findAndCount({
+      select: [
+        'id',
+        'uid',
+        'text',
+        'desp',
+        'type',
+        'pushkey_name',
+        'created_at',
+      ],
+      where: {
+        uid: user.uid,
+        text: ILike(`%${keyword}%`),
+      },
+      order: {
+        id: 'DESC',
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+  }
+
+  async ping(user: PushDeerUsers) {
+    const data = await this.messagesRepository.findOne({
+      select: ['id'],
+      where: {
+        uid: user.uid,
+      },
+      order: {
+        id: 'DESC',
+      },
+    });
+    return data.id;
   }
 }

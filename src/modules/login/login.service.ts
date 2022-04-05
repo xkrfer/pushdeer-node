@@ -5,6 +5,7 @@ import { Utils } from '../../helpers/utils';
 import { RedisCoreService } from '../redis-core/redis-core.service';
 import { AppleLoginDto } from '../../dto/user.dto';
 import { githubLogin, verifyAppleToken } from '../../helpers/verify.login';
+
 @Injectable()
 export class LoginService {
   constructor(private readonly userService: UserService) {}
@@ -39,6 +40,7 @@ export class LoginService {
       data.node_id,
       `${data.name}@${data.login}`,
       data.name,
+      'github',
     );
     return this.createToken(user);
   }
@@ -49,13 +51,25 @@ export class LoginService {
     return token;
   }
 
-  async createUser(uid: string, email: string, name: string) {
+  async createUser(
+    uid: string,
+    email: string,
+    name: string,
+    type: 'apple' | 'github' = 'apple',
+  ) {
     let user = await this.userService.findOne(uid);
     if (!user) {
       const pushDeerUser = new PushDeerUsers();
       pushDeerUser.email = email;
       pushDeerUser.name = name;
-      pushDeerUser.apple_id = uid;
+      switch (type) {
+        case 'github':
+          pushDeerUser.github_id = uid;
+          break;
+        default:
+          pushDeerUser.apple_id = uid;
+          break;
+      }
       pushDeerUser.level = 1;
       pushDeerUser.uid = Utils.randomUUID(8);
       user = await this.userService.saveUser(pushDeerUser);

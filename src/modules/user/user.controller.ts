@@ -1,8 +1,14 @@
-import { Controller, HttpCode, Post, Session, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  HttpCode,
+  Logger,
+  Post,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '../../global/guard/auth.guard';
 import { Code } from '../../helpers/utils';
-
 @Controller('user')
 @UseGuards(AuthGuard)
 export class UserController {
