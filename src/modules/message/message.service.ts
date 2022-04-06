@@ -1,4 +1,4 @@
-import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, MoreThan, Repository } from 'typeorm';
 import { PushDeerMessages } from '../../entity/message.entity';
@@ -145,7 +145,7 @@ export class MessageService {
 
   async ping(user: PushDeerUsers) {
     const data = await this.messagesRepository.findOne({
-      select: ['id'],
+      select: ['id', 'text', 'type'],
       where: {
         uid: user.uid,
       },
@@ -153,6 +153,10 @@ export class MessageService {
         id: 'DESC',
       },
     });
-    return data.id;
+
+    return {
+      id: data?.id ?? 0,
+      text: data?.type === 'image' ? '[图片]' : data?.text ?? '',
+    };
   }
 }

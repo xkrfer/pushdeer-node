@@ -101,9 +101,10 @@ export class MessageController {
   @Get('ping')
   @UseGuards(AuthGuard)
   async ping(@Session() session) {
+    const id = await this.messageService.ping(session.user);
     return {
       code: Code.DONE,
-      data: await this.messageService.ping(session.user),
+      data: id || 0,
     };
   }
 }

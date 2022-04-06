@@ -57,7 +57,7 @@ export class LoginController {
     // 设置cookie,signed启用加密
     res.cookie('token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 365,
-      httpOnly: false,
+      httpOnly: true,
       signed: false,
     });
     res.redirect('/');
