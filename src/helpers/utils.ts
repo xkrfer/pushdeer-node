@@ -21,5 +21,5 @@ export const Utils = {
   },
   checkNullObj(obj: any) {
     return Object.keys(obj).length === 0;
-  },
+  }
 };

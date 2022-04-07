@@ -2,7 +2,6 @@ import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
-import { Log4jsModule } from '@nestx-log4js/core';
 import { DbModule } from './modules/db/db.module';
 import { DeviceModule } from './modules/device/device.module';
 import { LoginModule } from './modules/login/login.module';
@@ -17,7 +16,6 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    Log4jsModule.forRoot(),
     DbModule,
     DeviceModule,
     LoginModule,
