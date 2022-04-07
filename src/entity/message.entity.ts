@@ -14,10 +14,10 @@ export class PushDeerMessages {
   @Column()
   uid: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 1000 })
   text: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 14000, nullable: true })
   desp: string;
 
   @Column({ nullable: true, default: 'markdown' })
@@ -31,6 +31,9 @@ export class PushDeerMessages {
 
   @Column()
   pushkey_name: string;
+
+  @Column({ type: 'text', nullable: true })
+  html: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

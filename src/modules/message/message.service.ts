@@ -47,6 +47,17 @@ export class MessageService {
         pushMessage.desp = desp;
         pushMessage.type = type;
         pushMessage.pushkey_name = key.name;
+        switch (type) {
+          case 'markdown':
+            pushMessage.html = Utils.renderMd(desp);
+            break;
+          case 'image':
+            pushMessage.html = `<img src="${desp}" alt="${text}"/>`;
+            break;
+          case 'text':
+          default:
+            pushMessage.html = text;
+        }
         await this.messagesRepository.save(pushMessage);
         const res = await this.runToDevice(key, type, text);
         result.push(...res);
@@ -128,6 +139,7 @@ export class MessageService {
         'text',
         'desp',
         'type',
+        'html',
         'pushkey_name',
         'created_at',
       ],
