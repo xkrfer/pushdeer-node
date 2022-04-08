@@ -56,8 +56,8 @@ export class LoginController {
     const token = await this.loginService.githubLogin(query.code);
     // 设置cookie,signed启用加密
     res.cookie('token', token, {
-      maxAge: 1000 * 60 * 60 * 24 * 365,
-      httpOnly: true,
+      maxAge: 1000 * 60,
+      httpOnly: false,
       signed: false,
     });
     res.redirect('/');
