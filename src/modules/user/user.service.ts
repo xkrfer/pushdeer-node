@@ -8,13 +8,16 @@ export class UserService {
   constructor(
     @InjectRepository(PushDeerUsers)
     private readonly usersRepository: Repository<PushDeerUsers>,
-  ) {
-  }
+  ) {}
 
-  async findOne(uid: string, type: 'apple_id' | 'wechat_id' = 'apple_id') {
-    return this.usersRepository.findOne({
-      [type]: uid,
-    });
+  async findOne(uid: string, type: 'apple' | 'github') {
+    const properties = {};
+    if (type === 'apple') {
+      properties['apple_id'] = uid;
+    } else if (type === 'github') {
+      properties['github_id'] = uid;
+    }
+    return this.usersRepository.findOne(properties);
   }
 
   async saveUser(user: PushDeerUsers) {

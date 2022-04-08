@@ -57,7 +57,7 @@ export class LoginService {
     name: string,
     type: 'apple' | 'github' = 'apple',
   ) {
-    let user = await this.userService.findOne(uid);
+    let user = await this.userService.findOne(uid, type);
     if (!user) {
       const pushDeerUser = new PushDeerUsers();
       pushDeerUser.email = email;
