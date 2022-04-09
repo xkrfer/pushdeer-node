@@ -51,7 +51,7 @@ COPY --from=build /app/dist dist
 
 COPY static static
 
-EXPOSE 8800 8888
+EXPOSE 8800
 
 ENTRYPOINT ["/bin/sh", "start.sh"]
 
