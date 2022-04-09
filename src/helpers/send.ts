@@ -7,6 +7,7 @@ import {
   GO_RUSH_IOS_TOPIC,
   GO_RUSH_ADDRESS,
 } from './config';
+import { Logger } from '@nestjs/common';
 
 interface AppleNotifications {
   tokens: string[];

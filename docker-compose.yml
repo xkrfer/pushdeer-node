@@ -3,7 +3,7 @@ services:
   mariadb:
     image: 'mariadb:10.5.8-focal'
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "--silent","--password=$$MYSQL_ROOT_PASSWORD"]
+      test: [ "CMD", "mysqladmin", "ping", "--silent","--password=$$MYSQL_ROOT_PASSWORD" ]
       timeout: 10s
       retries: 3
     volumes:
@@ -11,16 +11,21 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=theVeryp@ssw0rd
       - MYSQL_DATABASE=pushdeer
+    ports:
+      - '3306:3306'
   redis:
     image: 'bitnami/redis:6.2'
     healthcheck:
-      test: ["CMD", "redis-cli","ping"]
+      test: [ "CMD", "redis-cli","ping" ]
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
   app:
     build: '.'
     ports:
       - '8800:8800'
+      - '8888:8888'
     depends_on:
       mariadb:
         condition: service_healthy

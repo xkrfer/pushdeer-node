@@ -8,6 +8,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class ListMessageDto extends AuthDto {
   @ApiProperty({
@@ -17,6 +18,7 @@ export class ListMessageDto extends AuthDto {
   })
   @Max(100, { message: 'limit 范围为10-100' })
   @Min(10, { message: 'limit 范围为10-100' })
+  @Type(() => Number)
   @IsOptional()
   limit: number;
 
@@ -83,6 +85,7 @@ export class ListMessageV2Dto extends AuthDto {
   })
   @Max(100, { message: 'pageSize 范围为10-100' })
   @Min(1, { message: 'pageSize 范围为1-100' })
+  @Type(() => Number)
   @IsOptional()
   pageSize: number;
 
@@ -93,6 +96,7 @@ export class ListMessageV2Dto extends AuthDto {
   })
   @IsNumber({}, { message: '请输入正确的 page' })
   @Min(1, { message: '请输入正确的 page' })
+  @Type(() => Number)
   @IsOptional()
   page: number;
 

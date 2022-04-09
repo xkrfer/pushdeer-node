@@ -1,12 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AuthDto } from './auth.dto';
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  Matches,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UpdateDeviceDto extends AuthDto {
   @ApiProperty({ description: '设备名', example: 'iPhone', required: true })
@@ -29,6 +24,7 @@ export class UpdateDeviceDto extends AuthDto {
   })
   @IsOptional()
   @IsEnum([0, 1], { message: 'is_clip值错误' })
+  @Type(() => Number)
   is_clip: 0 | 1;
 
   @ApiProperty({

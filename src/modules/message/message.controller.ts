@@ -81,6 +81,7 @@ export class MessageController {
   @Post('list_v2')
   @UseGuards(AuthGuard)
   @HttpCode(200)
+  @Throttle(Number(MAX_EVERY_API_LIMIT_PER_MINUTE), 60)
   async listV2(@Body() body: ListMessageV2Dto, @Session() session) {
     const [messages, total] = await this.messageService.getListV2(
       body,
@@ -100,6 +101,7 @@ export class MessageController {
 
   @Get('ping')
   @UseGuards(AuthGuard)
+  @Throttle(Number(MAX_EVERY_API_LIMIT_PER_MINUTE), 60)
   async ping(@Session() session) {
     const id = await this.messageService.ping(session.user);
     return {
