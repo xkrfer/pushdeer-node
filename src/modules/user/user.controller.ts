@@ -1,7 +1,7 @@
 import {
+  Body,
   Controller,
   HttpCode,
-  Logger,
   Post,
   Session,
   UseGuards,
@@ -9,6 +9,7 @@ import {
 import { ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '../../global/guard/auth.guard';
 import { Code } from '../../helpers/utils';
+import { RedisCoreService } from '../redis-core/redis-core.service';
 @Controller('user')
 @UseGuards(AuthGuard)
 export class UserController {
@@ -22,12 +23,13 @@ export class UserController {
     };
   }
 
-  @Post('merge')
+  @Post('logout')
   @HttpCode(200)
-  @ApiOperation({ summary: '合并用户信息' })
-  async mergeUser(@Session() session) {
+  @ApiOperation({ summary: '退出' })
+  async logout(@Body() body) {
+    const { token } = body;
     return {
-      data: session.user,
+      data: await RedisCoreService.remove(token),
       code: Code.DONE,
     };
   }

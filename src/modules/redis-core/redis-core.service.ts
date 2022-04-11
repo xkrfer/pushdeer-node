@@ -14,6 +14,11 @@ export class RedisCoreService {
     return await RedisCoreService.redis.get(key);
   }
 
+  static async remove(key: string) {
+    await RedisCoreService.init();
+    return await RedisCoreService.redis.del(key);
+  }
+
   static async init() {
     if (!RedisCoreService.redis) {
       RedisCoreService.redis = await new IORedis({
