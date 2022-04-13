@@ -28,11 +28,11 @@ export class MessageService {
 
   async push(pushMessage: PushMessageDto) {
     const { desp, type = 'markdown', text, pushkey } = pushMessage;
-    const keys = Utils.unique(pushkey.split(','));
+    const keys = Array.from(new Set(pushkey.split(',').map((x) => x.trim())));
     const result: any = [];
 
     if (keys.length > Number(MAX_PUSH_KEY_PER_TIME)) {
-      keys.splice(100);
+      keys.splice(MAX_PUSH_KEY_PER_TIME);
     }
 
     for (let i = 0; i < keys.length; i++) {
