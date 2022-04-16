@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   HttpCode,
-  Logger,
   Post,
   Query,
   Session,
@@ -96,17 +95,6 @@ export class MessageController {
         pageSize: body.pageSize || 10,
         totalPage: ~~(total / (body.pageSize || 10)) + 1,
       },
-    };
-  }
-
-  @Get('ping')
-  @UseGuards(AuthGuard)
-  @Throttle(Number(MAX_EVERY_API_LIMIT_PER_MINUTE), 60)
-  async ping(@Session() session) {
-    const id = await this.messageService.ping(session.user);
-    return {
-      code: Code.DONE,
-      data: id || 0,
     };
   }
 }

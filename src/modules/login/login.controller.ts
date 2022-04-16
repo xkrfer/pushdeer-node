@@ -5,7 +5,6 @@ import {
   Query,
   Post,
   Body,
-  Redirect,
   Res,
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
@@ -14,6 +13,7 @@ import { Code } from '../../helpers/utils';
 import { AppleLoginDto } from '../../dto/user.dto';
 import { APP_DEBUG } from '../../helpers/config';
 import { SkipThrottle } from '@nestjs/throttler';
+import { sendByFCM } from '../../helpers/send';
 
 @Controller('login')
 export class LoginController {

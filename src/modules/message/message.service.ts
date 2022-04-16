@@ -12,7 +12,7 @@ import { Code, Utils } from '../../helpers/utils';
 import { PushDeerKeys } from '../../entity/keys.entity';
 import { PushDeerDevices } from '../../entity/devices.entity';
 import { PushDeerUsers } from '../../entity/users.entity';
-import { sendToiOS } from '../../helpers/send';
+import { sendByFCM, sendToiOS } from '../../helpers/send';
 import { MAX_PUSH_KEY_PER_TIME } from '../../helpers/config';
 
 @Injectable()
@@ -112,10 +112,12 @@ export class MessageService {
       const result: any = [];
       const sendText = sendType === 'image' ? '[图片]' : text;
       for (let i = 0; i < devices.length; i++) {
-        const { type, device_id, is_clip } = devices[i];
+        const { type, device_id, is_clip, fcm } = devices[i];
         if (type === 'ios') {
           const res = await sendToiOS(is_clip, device_id, sendText);
           result.push(res);
+        } else if (type === 'github') {
+          await sendByFCM(fcm, sendText);
         }
       }
       return result;

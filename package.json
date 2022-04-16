@@ -36,8 +36,10 @@
     "class-validator": "^0.13.2",
     "cookie-parser": "^1.4.6",
     "express-session": "^1.17.2",
+    "highlight.js": "^11.5.0",
     "ioredis": "^4.28.5",
     "js-yaml": "^4.1.0",
+    "markdown-it": "^12.3.2",
     "mysql2": "^2.3.3",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
@@ -47,8 +49,7 @@
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.3.0",
     "typeorm": "^0.2.45",
-    "highlight.js": "^11.5.0",
-    "markdown-it": "^12.3.2"
+    "web-push": "^3.4.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

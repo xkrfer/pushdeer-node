@@ -55,3 +55,13 @@ export class RenameDeviceDto extends AuthDto {
   @IsNotEmpty({ message: 'name不允许为空' })
   name: string;
 }
+
+export class BindDeviceFCMDto extends AuthDto {
+  @ApiProperty({ description: '设备id', example: 'xxxx', required: true })
+  @IsNumber({}, { message: '设备id错误' })
+  id: number;
+
+  @ApiProperty({ description: '推送信息', example: 'xxxxx', required: true })
+  @IsNotEmpty({ message: '推送信息不允许为空' })
+  fcm: string;
+}

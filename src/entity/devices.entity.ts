@@ -26,6 +26,9 @@ export class PushDeerDevices {
   @Column()
   name: string;
 
+  @Column({ type: 'varchar', length: 1000, nullable: true })
+  fcm: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 

@@ -9,6 +9,7 @@ import {
 import { ApiOperation } from '@nestjs/swagger';
 import { DeviceService } from './device.service';
 import {
+  BindDeviceFCMDto,
   ListDeviceDto,
   RemoveDeviceDto,
   RenameDeviceDto,
@@ -63,6 +64,17 @@ export class DeviceController {
   @Post('remove')
   @HttpCode(200)
   async removeDevice(@Body() body: RemoveDeviceDto, @Session() session) {
+    const status = await this.deviceService.removeDevice(body, session.user);
+    return {
+      code: status ? Code.DONE : Code.ARGS,
+      error: '设备不存在或已注销',
+    };
+  }
+
+  @ApiOperation({ summary: '绑定FCM推送信息，仅为chrome插件使用' })
+  @Post('bind/fcm')
+  @HttpCode(200)
+  async bindFCM(@Body() body: BindDeviceFCMDto, @Session() session) {
     const status = await this.deviceService.removeDevice(body, session.user);
     return {
       code: status ? Code.DONE : Code.ARGS,

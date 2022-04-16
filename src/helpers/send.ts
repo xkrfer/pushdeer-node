@@ -1,11 +1,16 @@
 import { UpdateDeviceDto } from '../dto/device.dto';
 import { request } from './request';
+import * as webpush from 'web-push';
+
 import {
   GO_RUSH_IOS_CLIP_PORT,
   GO_RUSH_IOS_CLIP_TOPIC,
   GO_RUSH_IOS_PORT,
   GO_RUSH_IOS_TOPIC,
   GO_RUSH_ADDRESS,
+  FCM_API_KEY,
+  FCM_PRIVATE_KEY,
+  FCM_PUBLIC_KEY,
 } from './config';
 import { Logger } from '@nestjs/common';
 
@@ -21,6 +26,8 @@ interface AppleNotifications {
 interface AppleSendInterface {
   notifications: AppleNotifications[];
 }
+
+const logger = new Logger('send');
 
 export async function sendToiOS(
   is_clip: UpdateDeviceDto['is_clip'],
@@ -47,4 +54,23 @@ export async function sendToiOS(
     data: notification,
   });
   return JSON.stringify(response.data);
+}
+
+if (FCM_API_KEY && FCM_PRIVATE_KEY && FCM_PUBLIC_KEY) {
+  webpush.setGCMAPIKey(FCM_API_KEY);
+  webpush.setVapidDetails(
+    'mailto:your_email@example.com',
+    FCM_PUBLIC_KEY,
+    FCM_PRIVATE_KEY,
+  );
+}
+
+export async function sendByFCM(pushSubscription: string, message: string) {
+  if (!pushSubscription || !(FCM_API_KEY && FCM_PRIVATE_KEY && FCM_PUBLIC_KEY))
+    return;
+  try {
+    await webpush.sendNotification(JSON.parse(pushSubscription), message);
+  } catch (err) {
+    logger.error('sendByFCM error', err);
+  }
 }

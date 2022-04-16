@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PushDeerDevices } from '../../entity/devices.entity';
 import { Repository } from 'typeorm';
 import {
+  BindDeviceFCMDto,
   RemoveDeviceDto,
   RenameDeviceDto,
   UpdateDeviceDto,
@@ -66,6 +67,20 @@ export class DeviceService {
     });
     if (device) {
       await this.devicesRepository.delete(device.id);
+      return true;
+    }
+    return false;
+  }
+
+  async bindDeviceWithFCM(bindInfo: BindDeviceFCMDto, user: PushDeerUsers) {
+    const device = await this.devicesRepository.findOne({
+      uid: user.uid,
+      id: bindInfo.id,
+    });
+    if (device) {
+      await this.devicesRepository.update(device.id, {
+        fcm: bindInfo.fcm,
+      });
       return true;
     }
     return false;
