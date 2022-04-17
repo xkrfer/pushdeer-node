@@ -54,7 +54,6 @@ export class LoginController {
   @Get('github')
   async githubLogin(@Query() query, @Res() res) {
     const token = await this.loginService.githubLogin(query.code);
-    // 设置cookie,signed启用加密
     res.cookie('token', token, {
       maxAge: 1000 * 60,
       httpOnly: false,

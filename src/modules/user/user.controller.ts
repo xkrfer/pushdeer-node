@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Get,
   HttpCode,
   Post,
   Session,
@@ -36,7 +36,7 @@ export class UserController {
     };
   }
 
-  @Post('config')
+  @Get('config')
   @HttpCode(200)
   @ApiOperation({ summary: '获取配置' })
   async getConfig() {

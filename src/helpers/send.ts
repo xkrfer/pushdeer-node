@@ -66,11 +66,10 @@ if (FCM_API_KEY && FCM_PRIVATE_KEY && FCM_PUBLIC_KEY) {
 }
 
 export async function sendByFCM(pushSubscription: string, message: string) {
-  if (!pushSubscription || !(FCM_API_KEY && FCM_PRIVATE_KEY && FCM_PUBLIC_KEY))
-    return;
-  try {
-    await webpush.sendNotification(JSON.parse(pushSubscription), message);
-  } catch (err) {
-    logger.error('sendByFCM error', err);
-  }
+  logger.log(`fcm: ${message}`);
+  await webpush
+    .sendNotification(JSON.parse(pushSubscription), message)
+    .catch((err) => {
+      logger.error(err);
+    });
 }

@@ -75,7 +75,10 @@ export class DeviceController {
   @Post('bind/fcm')
   @HttpCode(200)
   async bindFCM(@Body() body: BindDeviceFCMDto, @Session() session) {
-    const status = await this.deviceService.removeDevice(body, session.user);
+    const status = await this.deviceService.bindDeviceWithFCM(
+      body,
+      session.user,
+    );
     return {
       code: status ? Code.DONE : Code.ARGS,
       error: '设备不存在或已注销',
