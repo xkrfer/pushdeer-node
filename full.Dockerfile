@@ -21,7 +21,7 @@ COPY . .
 
 RUN npm run build
 
-FROM xkrfer/node-redis:v1 AS release
+FROM node:14.17.6-alpine AS release
 
 LABEL maintainer="xkrfer <xkrfer@gmail.com>"
 
