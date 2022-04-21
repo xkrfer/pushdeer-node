@@ -29,6 +29,8 @@ WORKDIR /release
 
 COPY docker  .
 
+COPY docker/redis.conf  /usr/local/redis/redis.conf
+
 COPY --from=gorush /gorush/bin/gorush push/gorush
 
 COPY package.json .
@@ -39,7 +41,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/main/" > /etc/apk/repositor
         && apk add --no-cache bash bash-doc bash-completion \
         && apk add --no-cache tzdata openrc libc6-compat\
         && apk add --no-cache redis \
-        && mv redis.conf /usr/local/redis/redis.conf\
         && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
         && npm config set registry https://registry.npmmirror.com \
         && npm install -g pm2 \
