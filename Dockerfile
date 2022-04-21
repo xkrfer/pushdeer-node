@@ -45,6 +45,7 @@ RUN npm config set registry https://registry.npmmirror.com \
     && sed  -i 's/localhost/redis/g' /release/push/ios.yml \
     && sed  -i 's/localhost/redis/g' /release/push/clip.yml \
     && chmod +x start.sh \
+    && rm -rf redis.conf \
     && rm -rf /var/cache/apk/*
 
 COPY --from=build /app/dist dist
