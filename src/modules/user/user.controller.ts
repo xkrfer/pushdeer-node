@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Get,
+  Controller,
+  Get,
   HttpCode,
   Post,
   Session,
@@ -30,8 +31,9 @@ export class UserController {
   @ApiOperation({ summary: '退出' })
   async logout(@Body() body) {
     const { token } = body;
+    const count = await RedisCoreService.remove(token);
     return {
-      data: await RedisCoreService.remove(token),
+      data: count === 1,
       code: Code.DONE,
     };
   }
