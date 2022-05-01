@@ -27,7 +27,6 @@ RUN npm install --production \
     && apk add --no-cache bash bash-doc bash-completion \
     && apk add --no-cache tzdata openrc libc6-compat\
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && chmod +x ./push/gorush \
     && sed  -i 's/localhost/redis/g' /release/push/ios.yml \
     && sed  -i 's/localhost/redis/g' /release/push/clip.yml \
     && wget https://github.com/appleboy/gorush/releases/download/v1.15.0/gorush-v1.15.0-linux-amd64 \
