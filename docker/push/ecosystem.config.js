@@ -10,10 +10,5 @@ module.exports = {
       script: './gorush',
       args: '-c clip.yml',
     },
-    {
-      name: 'redis',
-      script: '/usr/bin/redis-server',
-      args: '/usr/local/redis/redis.conf',
-    },
   ],
 };

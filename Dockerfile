@@ -1,13 +1,3 @@
-FROM golang AS gorush
-
-WORKDIR /
-
-RUN git clone https://github.com/appleboy/gorush.git --depth=1  \
-    && go env -w GO111MODULE=on \
-    && cd gorush \
-    && go install \
-    && go build -o ./bin/gorush
-
 FROM node:14.17.6 AS build
 
 WORKDIR /app
@@ -28,8 +18,6 @@ WORKDIR /release
 
 COPY docker  .
 
-COPY --from=gorush /gorush/bin/gorush push/gorush
-
 COPY package.json .
 
 RUN npm install --production \
@@ -42,8 +30,10 @@ RUN npm install --production \
     && chmod +x ./push/gorush \
     && sed  -i 's/localhost/redis/g' /release/push/ios.yml \
     && sed  -i 's/localhost/redis/g' /release/push/clip.yml \
+    && wget https://github.com/appleboy/gorush/releases/download/v1.15.0/gorush-v1.15.0-linux-amd64 \
+    && mv gorush-v1.15.0-linux-amd64 /release/push/gorush \
+    && chmod +x /release/push/gorush \
     && chmod +x start.sh \
-    && rm -rf redis.conf \
     && rm -rf /var/cache/apk/*
 
 COPY --from=build /app/dist dist
