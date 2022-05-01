@@ -4,7 +4,6 @@ WORKDIR /
 
 RUN git clone https://github.com/appleboy/gorush.git --depth=1  \
     && go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
     && cd gorush \
     && go install \
     && go build -o ./bin/gorush
@@ -15,7 +14,7 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN npm install --registry=https://registry.npmmirror.com
+RUN npm install
 
 COPY . .
 
@@ -33,8 +32,7 @@ COPY --from=gorush /gorush/bin/gorush push/gorush
 
 COPY package.json .
 
-RUN npm config set registry https://registry.npmmirror.com \
-    && npm install --production \
+RUN npm install --production \
     && npm install -g pm2 \
     && apk update \
     && apk upgrade \
