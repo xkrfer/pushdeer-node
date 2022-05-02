@@ -14,7 +14,7 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 - [开发方式](#开发方式)
 - [浏览器插件使用](#浏览器插件使用)
   - [准备](#准备)
-  - [申请GitHub App](#申请GitHub App)
+  - [申请GitHub App](#申请github-app)
   - [申请推送API](#申请推送API)
   - [运行](#运行)
   - [注意事项](#注意事项)
