@@ -1,0 +1,65 @@
+# Self Hosted Push Service
+
+### Introduction
+
+use node to write [pushdeer](https://github.com/easychen/pushdeer) some api and you can use chrome / edge extension to receive the notification, not just mobile apps.
+
+#### GitHub
+
+[pushdeer-node](https://github.com/xkrfer/pushdeer-node)
+
+[pushdeer-crx](https://github.com/xkrfer/pushdeer-crx)
+
+### How to use
+
+```yaml
+version: '2.1'
+services:
+  mariadb:
+    image: 'mariadb:10.5.8-focal'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "--silent","--password=$$MYSQL_ROOT_PASSWORD" ]
+      timeout: 10s
+      retries: 3
+    volumes:
+      - 'mariadb_data:/var/lib/mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=theVeryp@ssw0rd
+      - MYSQL_DATABASE=pushdeer
+    ports:
+      - '3306:3306'
+  redis:
+    image: 'bitnami/redis:6.2'
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  app:
+    image: 'xkrfer/pushdeer-node:latest'
+    ports:
+      - '8800:8800'
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_DATABASE=pushdeer
+      - DB_PASSWORD=theVeryp@ssw0rd
+      - REDIS_HOST=redis
+      - APP_DEBUG=true
+#   If you want to use a chrome extension, configure the following
+#     - GITHUB_CLIENT_ID=
+#     - GITHUB_CLIENT_SECRET=
+#     - FCM_API_KEY=
+#     - FCM_PUBLIC_KEY=
+#     - FCM_PRIVATE_KEY=
+volumes:
+  mariadb_data:
+```
+
+
+

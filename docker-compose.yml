@@ -36,5 +36,11 @@ services:
       - DB_PASSWORD=theVeryp@ssw0rd
       - REDIS_HOST=redis
       - APP_DEBUG=true
+#      If you want to use a chrome extension, configure the following
+#      - GITHUB_CLIENT_ID=
+#      - GITHUB_CLIENT_SECRET=
+#      - FCM_API_KEY=
+#      - FCM_PUBLIC_KEY=
+#      - FCM_PRIVATE_KEY=
 volumes:
   mariadb_data:

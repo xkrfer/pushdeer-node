@@ -1,11 +1,25 @@
-pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现版本，采用 [nestjs](https://github.com/nestjs/nest)
-开发 。
+pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现版本，采用 [nestjs](https://github.com/nestjs/nest) 开发 。
 
 ### 起因
 
-在 [easychen](https://github.com/easychen)
-的微博中知道了这个项目，了解了一下觉得非常有意思，只要实现了相关api就能够使用pushdeer的自架版客户端。正好这段时间在看 [nestjs](https://github.com/nestjs/nest) ，于是就
-以移植 [pushdeer](https://github.com/easychen/pushdeer) 为目的使用 [nestjs](https://github.com/nestjs/nest) 进行开发。
+在 [easychen](https://github.com/easychen) 的微博中知道了这个项目，了解了一下觉得非常有意思，只要实现了相关api就能够使用pushdeer的自架版客户端。正好这段时间在看 [nestjs](https://github.com/nestjs/nest) ，于是就使用 [nestjs](https://github.com/nestjs/nest) 进行移植。
+
+## 目录
+
+- [说明](#说明)
+- [特性](#特性)
+- [运行方式](#运行方式)
+  - [环境变量](#环境变量)
+  - [docker-compose](#使用目录下docker-compose配置文件)
+- [开发方式](#开发方式)
+- [浏览器插件使用](#浏览器插件使用)
+  - [准备](#准备)
+  - [申请GitHub App](#申请GitHub App)
+  - [申请推送API](#申请推送API)
+  - [运行](#运行)
+  - [注意事项](#注意事项)
+- [致谢](#致谢)
+- [License](#License)
 
 ### 说明
 
@@ -16,6 +30,7 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 - 实现 [pushdeer](https://github.com/easychen/pushdeer) 的大部分API
 - 仅支持iOS自架版客户端以及对应的轻应用，配合 [使用自架服务器端和自架版客户端](https://github.com/easychen/pushdeer#%E4%BD%BF%E7%94%A8%E8%87%AA%E6%9E%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E8%87%AA%E6%9E%B6%E7%89%88%E5%AE%A2%E6%88%B7%E7%AB%AF)
 食用更佳
+- 在 Chrome / Edge 中可使用配套浏览器插件 [pushdeer-crx](https://github.com/xkrfer/pushdeer-crx)  进行消息收发
 
 ### 运行方式
 
@@ -33,8 +48,13 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 | REDIS_HOST                     | 127.0.0.1（开发时） | redis地址                           |
 | APP_DEBUG                      | false         | 是否开启debug模式，开启时终端会打印相关请求          |
 | MAX_PUSH_EVERY_USER_PER_MINUTE | 120           | 每个ip下每分钟发送消息的最大次数是                |
-| MAX_PUSH_KEY_PER_TIME          | 100           | 批量发消息时最大pushkey数量                 |
+| MAX_PUSH_KEY_PER_TIME          | 100           | 批量发消息时pushkey的最大数量      |
 | MAX_EVERY_API_LIMIT_PER_MINUTE | 60            | 每个ip下每分钟调用接口的最大次数（发送消息接口除外）       |
+| GITHUB_CLIENT_ID | - | GitHub 中申请的应用id（见下文申请） |
+| GITHUB_CLIENT_SECRET | - | GitHub 中申请的应用密钥（见下文申请） |
+| FCM_API_KEY | - | Google Cloud Platform API 密钥（见下文申请） |
+| FCM_PUBLIC_KEY | - | Web 推送证书公钥（见下文申请） |
+| FCM_PRIVATE_KEY | - | Web 推送证书私钥（见下文申请） |
 
 #### 使用目录下docker-compose配置文件
 
@@ -59,7 +79,7 @@ docker-compose -f <docker-compose配置文件> up --build -d
 
 ```diff
 - build: '.'
-+ image: 'xkrfer/pushdeer-node'
++ image: 'xkrfer/pushdeer-node:latest'
 ```
 
 ### 开发方式
@@ -83,12 +103,52 @@ npm run start:dev
 
 # 端口号8800
 
+# swagger 地址为 http://localhost:8800/swagger-ui
+
 ```
+
+### 浏览器插件使用
+
+#### 准备
+
+- 科学上网的环境
+- GitHub 账号
+- Google 账号
+- 假定我们是部署在某台内网的机器上，此机器的ip地址为 **A**
+
+#### 申请GitHub App
+
+1. 登录GitHub
+2. 注册一个应用 [New OAuth Application ](https://github.com/settings/applications/new)  (路径为：**右上角个人头像** > **Settings** > **Developer settings** > **OAuth Apps** -> **New OAuth App**)，填入信息如下：
+   1. Application name 应用名，可随意填写
+   2. Homepage URL，我们假定部署后的地址为 http://{A}:8800
+   3. Authorization callback URL，此处填写 http://{A}:8800/login/github
+   4. 点击  **Register application**  ，创建成功后会进入应用详情页
+   5. 此时我们可以看到 **Client ID** ，接下来我们点击 **Generate a new client secret** 生成 **Client Secrets**
+   6. GitHub 生成完毕，此时我们记录创建后的 **Client ID**  以及 **Client Secrets**
+
+#### 申请推送API
+
+1. 打开 [firebase](https://console.firebase.google.com/)
+
+2. 获取推送相关密钥见下图
+
+    ![申请FCM](./apply-fcm.gif)
+
+
+
+#### 运行
+
+将上述申请的信息依次填入**docker-compose.yml**中并启动容器。
+
+#### 注意事项
+
+1. 由于GFW的存在，如果使用Chrome接受推送消息，必须将本程序部署在国外的服务器上或具有科学上网环境的服务器中
+2. Edge可正常部署
 
 ### 致谢
 
-感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen)
-、[Hext123](https://github.com/Hext123) 等。
+感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、[Hext123](https://github.com/Hext123) 等。
 
 本项目是 [pushdeer](https://github.com/easychen/pushdeer) Node练手版，上生产建议使用 [pushdeer](https://github.com/easychen/pushdeer) 。
 
