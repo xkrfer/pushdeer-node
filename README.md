@@ -1,26 +1,12 @@
 pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现版本，采用 [nestjs](https://github.com/nestjs/nest) 开发 。
 
-### 起因
+## 起因
 
 在 [easychen](https://github.com/easychen) 的微博中知道了这个项目，了解了一下觉得非常有意思，只要实现了相关api就能够使用pushdeer的自架版客户端。正好这段时间在看 [nestjs](https://github.com/nestjs/nest) ，于是就使用 [nestjs](https://github.com/nestjs/nest) 进行移植。
 
 ## 目录
 
-- [说明](#说明)
-- [特性](#特性)
-- [运行方式](#运行方式)
-  - [环境变量](#环境变量)
-  - [docker-compose](#使用目录下docker-compose配置文件)
-  - [Railway部署](#Railway 部署)
-- [开发方式](#开发方式)
-- [浏览器插件使用](#浏览器插件使用)
-  - [准备](#准备)
-  - [申请GitHub App](#申请github-app)
-  - [申请推送API](#申请推送API)
-  - [运行](#运行)
-  - [注意事项](#注意事项)
-- [致谢](#致谢)
-- [License](#License)
+[toc]
 
 ### 说明
 
@@ -161,13 +147,13 @@ npm run start:dev
 1. 由于GFW的存在，如果使用Chrome接受推送消息，必须将本程序部署在国外的服务器上或具有科学上网环境的服务器中
 2. Edge可正常部署
 
-### 致谢
+## 致谢
 
 感谢 [pushdeer](https://github.com/easychen/pushdeer) 的相关开发人员，包括但不限于 [easychen](https://github.com/easychen) 、[Hext123](https://github.com/Hext123) 等。
 
 本项目是 [pushdeer](https://github.com/easychen/pushdeer) Node练手版，上生产建议使用 [pushdeer](https://github.com/easychen/pushdeer) 。
 
-### License
+## License
 
 Copyright 2022 [xkrfer](https://github.com/xkrfer).
 
