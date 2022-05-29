@@ -11,6 +11,7 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 - [运行方式](#运行方式)
   - [环境变量](#环境变量)
   - [docker-compose](#使用目录下docker-compose配置文件)
+  - [Railway部署](#Railway 部署)
 - [开发方式](#开发方式)
 - [浏览器插件使用](#浏览器插件使用)
   - [准备](#准备)
@@ -31,6 +32,14 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 - 仅支持iOS自架版客户端以及对应的轻应用，配合 [使用自架服务器端和自架版客户端](https://github.com/easychen/pushdeer#%E4%BD%BF%E7%94%A8%E8%87%AA%E6%9E%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%92%8C%E8%87%AA%E6%9E%B6%E7%89%88%E5%AE%A2%E6%88%B7%E7%AB%AF)
 食用更佳
 - 在 Chrome / Edge 中可使用配套浏览器插件 [pushdeer-crx](https://github.com/xkrfer/pushdeer-crx)  进行消息收发
+
+### 立即体验
+
+将下方地址设置为endpoint即可体验！（下方地址仅供体验使用！长久使用建议自行部署！）
+
+```url
+https://pushdeer-node.vercel.app
+```
 
 ### 运行方式
 
@@ -81,6 +90,12 @@ docker-compose -f <docker-compose配置文件> up --build -d
 - build: '.'
 + image: 'xkrfer/pushdeer-node:latest'
 ```
+
+### Railway 部署
+
+没有服务器？试试一键Railway 部署！点击查看 [使用Railway部署教程](https://github.com/xkrfer/pushdeer-node/wiki/Railway部署pushdeer-node) 。
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/R7ETeQ?referralCode=_nO06Y)
 
 ### 开发方式
 
