@@ -1,0 +1,46 @@
+FROM node:14.17.6 AS build
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM node:14.17.6-alpine AS release
+
+LABEL maintainer="xkrfer <xkrfer@gmail.com>"
+
+WORKDIR /release
+
+COPY docker  .
+
+COPY package.json .
+
+RUN npm install --production \
+    && npm install -g pm2 \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/main/" > /etc/apk/repositories \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache openrc\
+    && apk add --no-cache bash bash-doc bash-completion \
+    && apk add --no-cache tzdata openrc libc6-compat\
+    && apk add --no-cache redis \
+    && cp redis.conf /usr/bin/redis.conf \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && wget https://github.com/appleboy/gorush/releases/download/v1.15.0/gorush-v1.15.0-linux-amd64 -O /release/push/gorush \
+    && chmod +x /release/push/gorush \
+    && chmod +x start.sh \
+    && rm -rf /var/cache/apk/*
+
+COPY --from=build /app/dist dist
+
+COPY static static
+
+EXPOSE 8800
+
+ENTRYPOINT ["/bin/sh", "start.sh", "railway"]
+
