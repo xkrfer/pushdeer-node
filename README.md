@@ -6,7 +6,26 @@ pushdeer-node 是 [pushdeer](https://github.com/easychen/pushdeer) 的Node实现
 
 ## 目录
 
-[toc]
+   * [起因](#起因)
+   * [目录](#目录)
+      * [说明](#说明)
+      * [特性](#特性)
+      * [立即体验](#立即体验)
+      * [运行方式](#运行方式)
+         * [环境变量](#环境变量)
+         * [使用目录下docker-compose配置文件](#使用目录下docker-compose配置文件)
+      * [Railway 部署](#railway-部署)
+      * [开发方式](#开发方式)
+         * [启动mariadb、redis](#启动mariadbredis)
+         * [启动项目](#启动项目)
+      * [浏览器插件使用](#浏览器插件使用)
+         * [准备](#准备)
+         * [申请GitHub App](#申请github-app)
+         * [申请推送API](#申请推送api)
+         * [运行](#运行)
+         * [注意事项](#注意事项)
+   * [致谢](#致谢)
+   * [License](#license)
 
 ### 说明
 
