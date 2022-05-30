@@ -37,9 +37,9 @@ export class LoginService {
   async githubLogin(code: string) {
     const data = await githubLogin(code);
     const user = await this.createUser(
-      data.node_id,
-      `${data.name}@${data.login}`,
-      data.name,
+      `github-${data.id}`,
+      `${data.name || data.id}@${data.login}`,
+      data.name || data.login,
       'github',
     );
     return this.createToken(user);
